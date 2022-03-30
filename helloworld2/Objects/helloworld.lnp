@@ -1,0 +1,15 @@
+--cpu Cortex-M3
+".\objects\startup_stm32f10x_hd.o"
+".\objects\main.o"
+".\objects\sys.o"
+".\objects\basic.o"
+".\objects\exti.o"
+".\objects\wdg.o"
+".\objects\beep.o"
+".\objects\led.o"
+".\objects\key.o"
+".\objects\usart.o"
+--strict --scatter ".\Objects\helloworld.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\helloworld.map" -o .\Objects\helloworld.axf
