@@ -7,8 +7,9 @@
 #include "wdg.h"
 
 //UART test
+UART uart1(RECV_BY_TIME_SEPRAITON);
 //UART uart1(RECV_IN_CIRCULAR_BUF);
-UART uart1(RECV_BY_LINE_ENDING);
+//UART uart1(RECV_BY_LINE_ENDING);
 u8 buf[64];
 u8 buf_len;
 
@@ -26,10 +27,10 @@ int main(void){
 	key_init();
 	//iwdg_init(500);
 	//delay(100);
-	LED0 = 0;
+	/*LED0 = 0;
 	delay(100);
 	LED0 = 1;
-	wwdg_init(20,40,1);
+	wwdg_init(20,40,1);*/
 	
 	//attach_ITR(key[0], CHANGING, led0_flip);
 	//attach_ITR(key[3], RISING, led1_flip);
@@ -51,6 +52,13 @@ int main(void){
 			uart1.write(buf, buf_len);
 			uart1.printf("\r\n10\r\n");
 		}*/
+		/*if(uart1.readline(buf, &buf_len)){
+			uart1.write(buf, buf_len);
+			uart1.printf("helloworld\r\n");
+		}*/
+		/*uart1.printf("helloworld\r\n");
+		delay(500);
+		LED0 = ~LED0;*/
 		
 	}
 	

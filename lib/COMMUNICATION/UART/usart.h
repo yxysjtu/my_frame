@@ -16,15 +16,20 @@ extern "C" {
 
 #define USART_REC_LEN  			200  	//定义最大接收字节数 200
 
-//TODO timer millis, str function(split)[in basic]
 
 typedef enum {
 	RECV_OFF = 0,
 	RECV_BY_LINE_ENDING = 1, //\r\n, linear buf, if received ending then stop put recv data into buf until exec readline function
-	RECV_BY_TIME_SEPRAITON = 2, //future develop millis function
+	RECV_BY_TIME_SEPRAITON = 2, 
 	RECV_IN_CIRCULAR_BUF = 3, //if full then lose data
 	RECV_CUSTOMIZE = 4
 } recv_mode;
+
+typedef enum{
+	parity_none = 0,
+	parity_odd = 3,
+	parity_even = 2
+} parity_e;
 
 typedef struct {
 	pin rx;
@@ -39,7 +44,7 @@ class UART { //IT
 	
 		UART(recv_mode rmode=RECV_OFF, USART_TypeDef * uart=USART1, UART_pin p=default_uart_pin);
 		
-		void begin(u32 baudrate=115200);
+		void begin(u32 baudrate=115200, parity_e parity=parity_none);
 		void printf(const char *fmt,...);
 	
 		//使用：（一定要写）在外部写USARTx_IRQHandler, 在函数里调用uartx.IRQHandler

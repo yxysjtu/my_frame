@@ -15,7 +15,7 @@ UART::UART(recv_mode rmode, USART_TypeDef * uart, UART_pin p){
 	this->rmode = rmode;
 }
 
-void UART::begin(u32 baudrate){
+void UART::begin(u32 baudrate, parity_e parity){
 	float uartdiv;
 	u16 div_mantissa, div_fraction;
 	u8 pclk = sys_clock * sys_clock_pll;
@@ -35,7 +35,9 @@ void UART::begin(u32 baudrate){
 	div_mantissa = uartdiv;				 //得到整数部分
 	div_fraction = (u16)round((uartdiv - div_mantissa) * 16); //得到小数部分	 
     USART->BRR = (div_mantissa << 4) + div_fraction;
-	USART->CR1|=0X200C;  //使能, RE,TE, 1位停止,无校验位.
+	USART->CR1 |= 0X200C;  //使能, RE,TE, 1位停止,无校验位.
+	USART->CR1 |= parity << 9; //set parity control
+	if(rmode == RECV_BY_TIME_SEPRAITON) USART->CR1 |= 1 << 4; //IDLE
 	
 	pinMode(p.rx, INPUT);
 	pinMode(p.tx, ALTERNATE_OUTPUT);	   	   
@@ -87,7 +89,11 @@ void UART::printf(const char *fmt,...){ //持续发送
 
 u8 UART::IRQHandler(void){ //receive
 	u8 res;	
-	if(USART->SR & (1<<5))	//接收到数据
+	if(USART->SR & (1 << 4)){ //detect idle line
+		USART_RX_STA |= 1 << 15;
+		res = USART->DR; 
+	}
+	else if(USART->SR & (1 << 5))	//接收到数据
 	{	 
 		res = USART->DR; 
 		switch(rmode){
@@ -106,21 +112,19 @@ u8 UART::IRQHandler(void){ //receive
 						{
 							USART_RX_BUF[USART_RX_STA&0X3FFF] = res;
 							USART_RX_STA++; 
-							if(USART_RX_STA > (USART_REC_LEN-1)) USART_RX_STA=0;//接收数据错误,重新开始接收	  
+							if(USART_RX_STA > (USART_REC_LEN-1)) USART_RX_STA = 0;//接收数据错误,重新开始接收	  
 						}		 
 					}
 				} 
 				break;  	
-			case RECV_BY_TIME_SEPRAITON: break;
-			case RECV_IN_CIRCULAR_BUF: 
-				/*USART_RX_BUF[ri2] = res;
-				if((ri2 == ri1) && rovf){//buf full
-					if((++ri1) >= USART_REC_LEN) ri1 = 0;
+			case RECV_BY_TIME_SEPRAITON:
+				if(!(USART_RX_STA & 0x8000)){
+					USART_RX_BUF[USART_RX_STA & 0X3FFF] = res;
+					USART_RX_STA++; 
+					if(USART_RX_STA > (USART_REC_LEN - 1)) USART_RX_STA = 0;//接收数据错误,重新开始接收	 
 				}
-				if((++ri2) >= USART_REC_LEN){
-					ri2 = 0;
-					rovf = 1;
-				}*/
+				break;
+			case RECV_IN_CIRCULAR_BUF: 
 				if(ri2 < ri1 || !rovf){ //when buf full, discard recv data
 					USART_RX_BUF[ri2] = res;
 					if((++ri2) >= USART_REC_LEN){
@@ -138,7 +142,6 @@ u8 UART::IRQHandler(void){ //receive
 } 
 	
 u8 UART::readline(u8 *buf, u8 *len){
-	//while(
 	if(rmode == RECV_BY_LINE_ENDING || rmode == RECV_BY_TIME_SEPRAITON){
 		if(USART_RX_STA & 0x8000){
 			*len = USART_RX_STA & 0x3fff;
@@ -151,12 +154,9 @@ u8 UART::readline(u8 *buf, u8 *len){
 	}else if(rmode == RECV_IN_CIRCULAR_BUF){
 		//read all data in buf
 		if(ri1 != ri2 || rovf){
-			USART->CR1 &= ~((1 << 5)); //stop recv
-			//USART->SR &= ~(1<<5);
-			
+			USART->CR1 &= ~((1 << 5)); //stop recv		
 			*len = 0;
 			while((ri1 < ri2) || rovf){
-				//if(
 				buf[*len] = USART_RX_BUF[ri1];
 				(*len)++; 
 				if((++ri1) >= USART_REC_LEN){
@@ -164,7 +164,6 @@ u8 UART::readline(u8 *buf, u8 *len){
 					rovf = 0;
 				}
 			}
-			
 			USART->CR1 |= (1 << 5); //enable recv
 			return 1;
 		}
@@ -176,15 +175,12 @@ u8 UART::readline(u8 *buf, u8 *len){
 
 u8 UART::read(u8 *buf, u16 len){ //just for circ_buf, len can't exceed buf_len
 	if(rmode == RECV_IN_CIRCULAR_BUF){
-		//read all data in buf
 		u16 len0 = ri2 + rovf * USART_REC_LEN - ri1;
 		if((len0 >= len) && (ri1 != ri2 || rovf)){
 			USART->CR1 &= ~((1 << 5)); //stop recv
-			//USART->SR &= ~(1<<5);
 			
 			u8 i = 0;
-			while((ri1 < ri2) || rovf){
-				//if(
+			while(((ri1 < ri2) || rovf) && i < len0){
 				buf[i] = USART_RX_BUF[ri1];
 				i++; 
 				if((++ri1) >= USART_REC_LEN){
