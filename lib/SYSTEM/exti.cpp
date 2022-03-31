@@ -1,8 +1,3 @@
-/*
- * @Description: 
- * @Author: yu
- * @LastEditTime: 2022-02-27 14:56:41
- */
 #include "exti.h"
 
 NVIC_priority default_priority = {2,2,3};

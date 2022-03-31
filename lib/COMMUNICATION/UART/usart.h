@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 #include "basic.h"
+#include "dma.h"
 
 #define USART_REC_LEN	200
 
@@ -34,7 +35,7 @@ typedef enum{
 typedef enum{
 	BLOCK,
 	ITR,
-	DMA
+	DMA //no dma in uart4 uart5
 } io_t;
 
 typedef struct {
@@ -44,19 +45,24 @@ typedef struct {
 
 extern UART_pin default_uart_pin;
 
-class UART { //do not use ITR of rx and tx at the same time!!!
+class UART {
 	public:
 		u8 USART_RX_BUF[USART_REC_LEN]; //user can use this buf when RECV_CUSTOMIZE
 		u8 tx_buf[USART_REC_LEN];
+		DMA_CH rdma, tdma;
 	
-		UART(recv_mode rmode=RECV_OFF, io_t rx_way=ITR, io_t tx_way=BLOCK, USART_TypeDef * uart=USART1, UART_pin p=default_uart_pin);
-		
-		void begin(u32 baudrate=115200, parity_e parity=parity_none);
+		UART(USART_TypeDef * uart=USART1, UART_pin p=default_uart_pin);
+		//recommend:
+		//RECV_BY_TIME_SEPRAITON + rx:DMA
+		//RECV_BY_LINE_ENDING + rx:ITR
+		void begin(recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=ITR, u32 baudrate=115200, parity_e parity=parity_none);
 		void printf(const char *fmt,...);
 	
 		//使用：（一定要写）在外部写USARTx_IRQHandler, 在函数里调用uartx.IRQHandler
 		//返回接收到的单个值
 		u8 IRQHandler(void);
+		void tdma_IRQHandler(void);
+		void rdma_IRQHandler(void);
 
 		//RECV_BY_LINE: \r\n(support block,itr,dma)
 		//RECV_BY_TIME_SEPRATION: data packet(support block,itr,dma)
@@ -66,6 +72,8 @@ class UART { //do not use ITR of rx and tx at the same time!!!
 		void write(u8 val);
 		void write(u8 *buf, u32 len);
 		u8 write_available();
+	
+		void disable();
 	
 	private:
 		UART_pin p;
@@ -81,7 +89,6 @@ class UART { //do not use ITR of rx and tx at the same time!!!
 		vu8 ti;
 		vu16 tx_len;
 		vu8 tc_flag; //transmitt complete
-	
 };
 
 #endif	   

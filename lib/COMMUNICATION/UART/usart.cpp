@@ -1,7 +1,6 @@
 #include "usart.h"	 
 //APB2:UARST1 72M
 //APB1:UARST2~5 36M
-//add DMA in the future
 #include "led.h"
 
 		
@@ -10,17 +9,30 @@ UART_pin default_uart_pin = {
 	{GPIOA, 9}
 };
 	
-UART::UART(recv_mode rmode, io_t rx_way, io_t tx_way, USART_TypeDef * uart, UART_pin p){
+UART::UART(USART_TypeDef * uart, UART_pin p){
 	this->USART = uart;
 	this->p = p;
+	tc_flag = 1;
+	USART_RX_STA = 0;
+	
+	if(uart == USART2){
+		rdma = DMA_CH(DMA1_Channel6);
+		tdma = DMA_CH(DMA1_Channel7);
+	}else if(uart == USART3){
+		rdma = DMA_CH(DMA1_Channel3);
+		tdma = DMA_CH(DMA1_Channel2);
+	}else if(uart == USART1){
+		rdma = DMA_CH(DMA1_Channel5);
+		tdma = DMA_CH(DMA1_Channel4);
+	}
+	
+}
+
+void UART::begin(recv_mode rmode, io_t rx_way, io_t tx_way, u32 baudrate, parity_e parity){
 	this->rmode = rmode;
 	this->rx_way = rx_way;
 	this->tx_way = tx_way;
-	tc_flag = 1;
-	USART_RX_STA = 0;
-}
-
-void UART::begin(u32 baudrate, parity_e parity){
+	
 	float uartdiv;
 	u16 div_mantissa, div_fraction;
 	u8 pclk = sys_clock * sys_clock_pll;
@@ -45,12 +57,13 @@ void UART::begin(u32 baudrate, parity_e parity){
 	if(rmode == RECV_BY_TIME_SEPRAITON) USART->CR1 |= 1 << 4; //IDLE
 	
 	if(tx_way == DMA){
-		
+		USART->CR3 |= 1 << 7; //ENABLE DMA TRANSMITT
+		tdma.init((u32)&(USART->DR), (u32)tx_buf, m2p, USART_REC_LEN, 0, 1, bit_8, bit_8, 0, 0, priority_medium, 1);
 	}
-	if(rx_way == ITR)
-		USART->CR1 |= 1 << 5;    //RXNEIE 
+	if(rx_way == ITR) USART->CR1 |= 1 << 5;    //RXNEIE 
 	else if(rx_way == DMA){
-			
+		USART->CR3 |= 1 << 6; //ENABLE DMA RECV
+		rdma.init((u32)&(USART->DR), (u32)USART_RX_BUF, p2m, USART_REC_LEN, 0, 1, bit_8, bit_8, 0, 0, priority_medium, 1);
 	}
 	
 	pinMode(p.rx, INPUT);
@@ -101,15 +114,23 @@ void UART::printf(const char *fmt,...){ //持续发送
 		USART->CR1 |= 1 << 6; //TCIE
 		//USART->CR1 &= ~(1 << 5); //RXIE
 		USART->DR = tx_buf[0];
+	}else if(tx_way == DMA){
+		tdma.config((u32)&(USART->DR), (u32)tx_buf, tx_len);
+		tdma.enable();
 	}
+		
 }
 
 
-u8 UART::IRQHandler(void){ //receive
+u8 UART::IRQHandler(void){ //receive interrupt
 	u8 res;	
 	if(USART->SR & (1 << 4)){ //detect idle line
 		USART_RX_STA |= 1 << 15;
 		res = USART->DR; 
+		if(rx_way == DMA){
+			rdma.disable();
+			rdma.tc_flag = 1;
+		}
 	}
 	else if(USART->SR & (1 << 5)){ //recv	 
 		res = USART->DR; 
@@ -164,7 +185,20 @@ u8 UART::IRQHandler(void){ //receive
 	
 	return res;
 } 
-	
+
+void UART::tdma_IRQHandler(void){
+	if(tdma.transmitt_complete()){
+		tc_flag = 1;
+		tdma.disable();
+	}
+}
+void UART::rdma_IRQHandler(void){
+	if(rdma.transmitt_complete()){
+		USART_RX_STA |= 1 << 15;
+		rdma.disable();
+	}
+}
+
 u8 UART::readline(u8 *buf, u8 *len, u32 timeout){
 	if(rmode == RECV_BY_LINE_ENDING || rmode == RECV_BY_TIME_SEPRAITON){
 		if(rx_way == BLOCK){
@@ -201,9 +235,19 @@ u8 UART::readline(u8 *buf, u8 *len, u32 timeout){
 				USART_RX_STA = 0;
 				return 1;
 			}
+		}else if(rx_way == DMA){ //only support idle
+			if(USART_RX_STA & 0x8000){
+				*len = rdma.DMA_CHx->CNDTR;
+				USART_RX_STA = 0;
+				return 1;
+			}else if(rdma.tc_flag){
+				rdma.config((u32)&(USART->DR), (u32)buf, USART_REC_LEN);
+				rdma.enable();
+			}
+			return 0;
 		}
 		
-	}else if(rmode == RECV_IN_CIRCULAR_BUF){ 
+	}else if(rmode == RECV_IN_CIRCULAR_BUF){ //dma not supported
 		//read all data in buf
 		if(ri1 != ri2 || rovf){
 			USART->CR1 &= ~((1 << 5)); //stop recv		
@@ -225,8 +269,18 @@ u8 UART::readline(u8 *buf, u8 *len, u32 timeout){
 }
 
 
-u8 UART::read(u8 *buf, u16 len){ //just for circ_buf, len can't exceed buf_len
-	if(rmode == RECV_IN_CIRCULAR_BUF){
+u8 UART::read(u8 *buf, u16 len){
+	if(rx_way == DMA){
+		if(USART_RX_STA & 0x8000){
+			USART_RX_STA = 0;
+			return 1;
+		}else if(rdma.tc_flag){
+			rdma.config((u32)&(USART->DR), (u32)buf, len);
+			rdma.enable();
+		}
+		return 0;
+	}
+	else if(rmode == RECV_IN_CIRCULAR_BUF){
 		u16 len0 = ri2 + rovf * USART_REC_LEN - ri1;
 		if((len0 >= len) && (ri1 != ri2 || rovf)){
 			USART->CR1 &= ~((1 << 5)); //stop recv
@@ -251,6 +305,7 @@ u8 UART::read(u8 *buf, u16 len){ //just for circ_buf, len can't exceed buf_len
 
 void UART::write(u8 val){
 	tc_flag = 0;
+	tx_len = 1;
 	//USART->CR1 &= ~(1 << 4); //IDLE
 	if(tx_way == BLOCK){
 		while((USART->SR & 0X40) == 0);
@@ -261,15 +316,19 @@ void UART::write(u8 val){
 		USART->SR &= ~(1 << 6);
 		USART->CR1 |= 1 << 6; //TCIE
 		//USART->CR1 &= ~(1 << 5); //RXIE
-		tx_len = 1;
 		ti = 0;
 		USART->DR = val;
+	}else if(tx_way == DMA){ //I think no one will use DMA to send only 1 bit
+		tx_buf[0] = val;
+		tdma.config((u32)&(USART->DR), (u32)tx_buf, tx_len);
+		tdma.enable();
 	}
 	
 }
 
 void UART::write(u8 *buf, u32 len){
 	tc_flag = 0;
+	tx_len = len;
 	//USART->CR1 &= ~(1 << 4); //IDLE
 	if(tx_way == BLOCK){
 		for(u32 i = 0; i < len; i++){
@@ -280,15 +339,29 @@ void UART::write(u8 *buf, u32 len){
 	}else if(tx_way == ITR){
 		//USART->CR1 &= ~(1 << 5); //RXIE
 		for(u16 i = 0; i < len; i++) tx_buf[i] = buf[i];
-		tx_len = len;
 		ti = 0;
 		USART->SR &= ~(1 << 6);
 		USART->CR1 |= 1 << 6; //TCIE
 		USART->DR = tx_buf[0];
+	}else if(tx_way == DMA){
+		tdma.config((u32)&(USART->DR), (u32)buf, tx_len);
+		tdma.enable();
 	}
 	
 }
 
 u8 UART::write_available(){
 	return tc_flag;
+}
+
+void UART::disable(){
+	if(USART == USART1){
+		RCC->APB2ENR &= ~(1 << 14);  //关闭串口时钟 
+		RCC->APB2RSTR |= 1 << 14;   //复位串口1
+		RCC->APB2RSTR &= ~(1 << 14);//停止复位	 
+	}else{
+		RCC->APB1ENR &= ~(1 << (17 + ((u32)USART - USART2_BASE) / 0X0400));  //关闭串口时钟 
+		RCC->APB1RSTR |= 1 << (17 + ((u32)USART - USART2_BASE) / 0X0400);   //复位串口
+		RCC->APB1RSTR &= ~(1 << (17 + ((u32)USART - USART2_BASE) / 0X0400));//停止复位
+	}
 }

@@ -397,6 +397,11 @@
               <FileType>8</FileType>
               <FilePath>.\main.cpp</FilePath>
             </File>
+            <File>
+              <FileName>ITR.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ITR.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -421,6 +426,11 @@
               <FileName>wdg.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\lib\SYSTEM\wdg.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>dma.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\SYSTEM\dma.cpp</FilePath>
             </File>
           </Files>
         </Group>

@@ -5,6 +5,7 @@
 ".\objects\basic.o"
 ".\objects\exti.o"
 ".\objects\wdg.o"
+".\objects\dma.o"
 ".\objects\beep.o"
 ".\objects\led.o"
 ".\objects\key.o"
