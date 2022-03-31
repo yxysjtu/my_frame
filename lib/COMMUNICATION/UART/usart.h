@@ -14,7 +14,7 @@ extern "C" {
 
 #include "basic.h"
 
-#define USART_REC_LEN  			200  	//定义最大接收字节数 200
+#define USART_REC_LEN	200
 
 
 typedef enum {
@@ -31,6 +31,12 @@ typedef enum{
 	parity_even = 2
 } parity_e;
 
+typedef enum{
+	BLOCK,
+	ITR,
+	DMA
+} io_t;
+
 typedef struct {
 	pin rx;
 	pin tx;
@@ -38,11 +44,12 @@ typedef struct {
 
 extern UART_pin default_uart_pin;
 
-class UART { //IT
+class UART { //do not use ITR of rx and tx at the same time!!!
 	public:
-		u8  USART_RX_BUF[USART_REC_LEN]; //user can use this buf when RECV_CUSTOMIZE
+		u8 USART_RX_BUF[USART_REC_LEN]; //user can use this buf when RECV_CUSTOMIZE
+		u8 tx_buf[USART_REC_LEN];
 	
-		UART(recv_mode rmode=RECV_OFF, USART_TypeDef * uart=USART1, UART_pin p=default_uart_pin);
+		UART(recv_mode rmode=RECV_OFF, io_t rx_way=ITR, io_t tx_way=BLOCK, USART_TypeDef * uart=USART1, UART_pin p=default_uart_pin);
 		
 		void begin(u32 baudrate=115200, parity_e parity=parity_none);
 		void printf(const char *fmt,...);
@@ -51,26 +58,29 @@ class UART { //IT
 		//返回接收到的单个值
 		u8 IRQHandler(void);
 
-		//user can use str_split function to further process the data
-		//RECV_BY_LINE: \r\n
-		//RECV_BY_TIME_SEPRATION: data packet
-		//RECV_IN_CIRCULAR_BUF: all data in buf
-		u8 readline(u8 *buf, u8 *len); //return read success=1, fail=0
+		//RECV_BY_LINE: \r\n(support block,itr,dma)
+		//RECV_BY_TIME_SEPRATION: data packet(support block,itr,dma)
+		//RECV_IN_CIRCULAR_BUF: all data in buf(block not supported)
+		u8 readline(u8 *buf, u8 *len, u32 timeout=1000); //return read success=1, fail=0
 		u8 read(u8 *buf, u16 len);//circular buf, return read success=1, fail=0
 		void write(u8 val);
 		void write(u8 *buf, u32 len);
+		u8 write_available();
 	
 	private:
 		UART_pin p;
 		recv_mode rmode;
+		io_t rx_way, tx_way;
 		USART_TypeDef * USART; 
 		//接收状态
 		//bit15，	接收完成标志
 		//bit14，	接收到0x0d
 		//bit13~0，	接收到的有效字节数目
-		u16 USART_RX_STA;         		//接收状态标记	
-		u8 ri1, ri2, rovf, lock_r; //recv_buf top, button pointer; overflow flag
-	
+		vu16 USART_RX_STA;         		//接收状态标记	
+		vu16 ri1, ri2, rovf; //recv_buf top, button pointer; overflow flag
+		vu8 ti;
+		vu16 tx_len;
+		vu8 tc_flag; //transmitt complete
 	
 };
 
