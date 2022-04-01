@@ -48,16 +48,14 @@ void DMA_CH::set_data_len(u16 len){
     data_len = len;
 }
 void DMA_CH::enable(){
+	tc_flag = 0;
     DMA_CHx->CCR &= ~(1 << 0);
     DMA_CHx->CNDTR = data_len;
     DMA_CHx->CCR |= 1 << 0;
 }
 void DMA_CH::enable(u16 len){
 	data_len = len;
-	tc_flag = 0;
-    DMA_CHx->CCR &= ~(1 << 0);
-    DMA_CHx->CNDTR = data_len;
-    DMA_CHx->CCR |= 1 << 0;
+	enable();
 }
 u8 DMA_CH::transmitt_complete(){
 	if(!tc_flag) IRQHandler();

@@ -1,7 +1,6 @@
 #include "usart.h"	 
 //APB2:UARST1 72M
 //APB1:UARST2~5 36M
-#include "led.h"
 
 		
 UART_pin default_uart_pin = {
@@ -100,7 +99,6 @@ void UART::printf(const char *fmt,...){ //持续发送
 	
 	ti = 0;
 	tc_flag = 0;
-	//USART->CR1 &= ~(1 << 4); //IDLE
 	if(tx_way == BLOCK){
 		for(; ti < tx_len; ti++){
 			while((USART->SR & 0X40) == 0);//等待上一次串口数据发送完成  
@@ -112,7 +110,6 @@ void UART::printf(const char *fmt,...){ //持续发送
 		ti = 0;
 		USART->SR &= ~(1 << 6);
 		USART->CR1 |= 1 << 6; //TCIE
-		//USART->CR1 &= ~(1 << 5); //RXIE
 		USART->DR = tx_buf[0];
 	}else if(tx_way == DMA){
 		tdma.config((u32)&(USART->DR), (u32)tx_buf, tx_len);
@@ -127,10 +124,6 @@ u8 UART::IRQHandler(void){ //receive interrupt
 	if(USART->SR & (1 << 4)){ //detect idle line
 		USART_RX_STA |= 1 << 15;
 		res = USART->DR; 
-		if(rx_way == DMA){
-			rdma.disable();
-			rdma.tc_flag = 1;
-		}
 	}
 	else if(USART->SR & (1 << 5)){ //recv	 
 		res = USART->DR; 
@@ -178,8 +171,6 @@ u8 UART::IRQHandler(void){ //receive interrupt
 			tc_flag = 1;
 			USART->CR1 &= ~(1 << 6); //TCIE
 			USART->SR &= ~(1 << 6); //to avoid still set to 1 and then trigger itr when tcie
-			//if(rmode != RECV_OFF) USART->CR1 |= 1 << 5; //RXIE
-			//if(rmode == RECV_BY_TIME_SEPRAITON) USART->CR1 |= 1 << 4; //IDLE
 		}
 	}
 	
@@ -210,7 +201,7 @@ u8 UART::readline(u8 *buf, u8 *len, u32 timeout){
 				if(i/5000 >= timeout) return 0;
 				if(USART_RX_STA & 0x8000) break;
 				res = USART->DR;
-				LED0 = ~LED0;
+
 				if(USART_RX_STA & 0x4000){//接收到了0x0d
 					if(res != 0x0a) USART_RX_STA = 0;//接收错误,重新开始
 					else USART_RX_STA |= 0x8000;	//接收完成了 
@@ -237,10 +228,11 @@ u8 UART::readline(u8 *buf, u8 *len, u32 timeout){
 			}
 		}else if(rx_way == DMA){ //only support idle
 			if(USART_RX_STA & 0x8000){
-				*len = rdma.DMA_CHx->CNDTR;
+				*len = rdma.data_len - rdma.DMA_CHx->CNDTR;
+				rdma.tc_flag = 1;
 				USART_RX_STA = 0;
 				return 1;
-			}else if(rdma.tc_flag){
+			}else if(rdma.tc_flag){ //initial config
 				rdma.config((u32)&(USART->DR), (u32)buf, USART_REC_LEN);
 				rdma.enable();
 			}
@@ -306,7 +298,7 @@ u8 UART::read(u8 *buf, u16 len){
 void UART::write(u8 val){
 	tc_flag = 0;
 	tx_len = 1;
-	//USART->CR1 &= ~(1 << 4); //IDLE
+
 	if(tx_way == BLOCK){
 		while((USART->SR & 0X40) == 0);
 		USART->DR = val;   
@@ -315,7 +307,6 @@ void UART::write(u8 val){
 	}else if(tx_way == ITR){
 		USART->SR &= ~(1 << 6);
 		USART->CR1 |= 1 << 6; //TCIE
-		//USART->CR1 &= ~(1 << 5); //RXIE
 		ti = 0;
 		USART->DR = val;
 	}else if(tx_way == DMA){ //I think no one will use DMA to send only 1 bit
@@ -329,7 +320,7 @@ void UART::write(u8 val){
 void UART::write(u8 *buf, u32 len){
 	tc_flag = 0;
 	tx_len = len;
-	//USART->CR1 &= ~(1 << 4); //IDLE
+
 	if(tx_way == BLOCK){
 		for(u32 i = 0; i < len; i++){
 			write(buf[i]);
@@ -337,7 +328,6 @@ void UART::write(u8 *buf, u32 len){
 		tc_flag = 1;
 		if(rmode == RECV_BY_TIME_SEPRAITON) USART->CR1 |= 1 << 4; //IDLE
 	}else if(tx_way == ITR){
-		//USART->CR1 &= ~(1 << 5); //RXIE
 		for(u16 i = 0; i < len; i++) tx_buf[i] = buf[i];
 		ti = 0;
 		USART->SR &= ~(1 << 6);

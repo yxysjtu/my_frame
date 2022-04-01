@@ -55,11 +55,10 @@ class UART {
 		//recommend:
 		//RECV_BY_TIME_SEPRAITON + rx:DMA
 		//RECV_BY_LINE_ENDING + rx:ITR
-		void begin(recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=ITR, u32 baudrate=115200, parity_e parity=parity_none);
+		void begin(recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=BLOCK, u32 baudrate=115200, parity_e parity=parity_none);
 		void printf(const char *fmt,...);
 	
 		//使用：（一定要写）在外部写USARTx_IRQHandler, 在函数里调用uartx.IRQHandler
-		//返回接收到的单个值
 		u8 IRQHandler(void);
 		void tdma_IRQHandler(void);
 		void rdma_IRQHandler(void);
@@ -84,7 +83,7 @@ class UART {
 		//bit15，	接收完成标志
 		//bit14，	接收到0x0d
 		//bit13~0，	接收到的有效字节数目
-		vu16 USART_RX_STA;         		//接收状态标记	
+		vu16 USART_RX_STA;         		//接收状态标记，纯粹抄的，这玩意长得丑还不好用，还不如搞个rc_flag...(懒..)
 		vu16 ri1, ri2, rovf; //recv_buf top, button pointer; overflow flag
 		vu8 ti;
 		vu16 tx_len;

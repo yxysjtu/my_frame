@@ -52,7 +52,7 @@ public:
     void enable();
 	void enable(u16 len);
 	u8 transmitt_complete();
-    void disable();
+    void disable(); //auto reload counter
 	
 	void IRQHandler(void);
 };
