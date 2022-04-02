@@ -1,6 +1,6 @@
 #include "basic.h"
-#include "ITR.h"
 #include "usart.h"
+#include "timer.h"
 #include "led.h"
 #include "beep.h"
 #include "key.h"
@@ -17,11 +17,17 @@ void led1_flip(){
 	LED1 = ~LED1;
 }
 
+
 int main(void){
 	sys_init();
-	uart1.begin();
+	uart1.enable();
 	led_init();
 	key_init();
+	
+	tim2.init();
+	tim2.set_frequency(10);
+	tim2.attach_ITR(led1_flip);
+	tim2.enable();
 	//iwdg_init(500);
 	//delay(100);
 	/*LED0 = 0;
@@ -33,6 +39,7 @@ int main(void){
 	//attach_ITR(key[3], RISING, led1_flip);
 	
 	while(1){
+		
 		//delay(19);
 		//wwdg_feed();
 
@@ -49,16 +56,17 @@ int main(void){
 			uart1.write(buf, buf_len);
 			uart1.printf("\r\n10\r\n");
 		}*/
-		/*if(uart1.readline(buf, &buf_len)){
+		if(uart1.readline(buf, &buf_len)){
 			while(!uart1.write_available());
 			uart1.write(buf, buf_len);
 			while(!uart1.write_available());
 			uart1.printf("helloworld!!!\r\n");
-			//LED0 = ~LED0;
-		}*/
+		}
 		//uart1.printf("remain:%d\r\n",uart1.rdma.DMA_CHx->CNDTR);
 		/*uart1.printf("helloworld\r\n");
 		delay(200);*/
+		/*LED0 = ~LED0;
+		delay(500);*/
 	}
 	
 	//return 0;

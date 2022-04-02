@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-02-27 14:49:08
+ * @LastEditTime: 2022-04-02 13:57:51
  */
 #ifndef EXTI_H
 #define EXTI_H
@@ -14,8 +14,8 @@ typedef enum{
     CHANGING = 3
 } detect_mode;
 
-extern NVIC_priority default_priority;
 
+//same pin num share 1 interrupt, like PA1,PB1,PC1...
 void attach_ITR(pin p, detect_mode dmode, void (*f)(void), NVIC_priority priority=default_priority);
 
 #endif

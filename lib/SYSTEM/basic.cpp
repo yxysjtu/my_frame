@@ -1,9 +1,12 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-02-27 18:25:50
+ * @LastEditTime: 2022-04-02 17:25:31
  */
 #include "basic.h"
+
+NVIC_priority default_priority = {2,2,3};
+NVIC_priority default_priority_H = {2,1,3};
 
 //init clock and systick
 u8 sys_clock = 8, sys_clock_pll = 9; //8M
@@ -15,43 +18,44 @@ void sys_init(u8 clock, u8 pll){
 	SysTick->CTRL &= ~(1<<2);	
 }
 
+void NVIC_init(u8 channel, NVIC_priority priority){
+	MY_NVIC_Init(priority.preemption_priority, priority.sub_priority, channel, priority.group); 
+}
 
 //delay
 void delay(u16 ms){
 	u32 temp;		   
-	SysTick->LOAD=1000*1000*sys_clock_pll;			//ʱ�����(SysTick->LOADΪ24bit
-	SysTick->VAL =0x00;           			//��ռ�����
-	SysTick->CTRL=0x01 ;          			//��ʼ����
+	SysTick->LOAD=1000*1000*sys_clock_pll;		
+	SysTick->VAL =0x00;           			
+	SysTick->CTRL=0x01 ;          			
 	for(u8 i=0;i<ms/1000;i++){  
 		do
 		{
 			temp=SysTick->CTRL;
-		}while((temp&0x01)&&!(temp&(1<<16)));	//�ȴ�ʱ�䵽��   
+		}while((temp&0x01)&&!(temp&(1<<16)));	  
 	}
-	SysTick->CTRL=0x00;      	 			//�رռ�����
+	SysTick->CTRL=0x00;      	 	
 	if(ms%1000>0){
-		SysTick->LOAD=(ms%1000)*1000*sys_clock_pll;			//ʱ�����(SysTick->LOADΪ24bit
-		SysTick->VAL =0x00;           			//��ռ�����
-		SysTick->CTRL=0x01 ;          			//��ʼ����  
-		do
-		{
+		SysTick->LOAD=(ms%1000)*1000*sys_clock_pll;		
+		SysTick->VAL =0x00;           		
+		SysTick->CTRL=0x01 ;          	
+		do{
 			temp=SysTick->CTRL;
-		}while((temp&0x01)&&!(temp&(1<<16)));	//�ȴ�ʱ�䵽��   
-		SysTick->CTRL=0x00;      	 			//�رռ�����
+		}while((temp&0x01)&&!(temp&(1<<16)));	 
+		SysTick->CTRL=0x00;      	 			
 	}
-	SysTick->VAL =0X00;       				//��ռ�����
+	SysTick->VAL =0X00;       			
 }
 void delay_us(u32 us){
 	u32 temp;	    	 
-	SysTick->LOAD=us*sys_clock_pll; 					//ʱ�����,1/9us		 
-	SysTick->VAL=0x00;        				//��ռ�����
-	SysTick->CTRL=0x01;      				//��ʼ���� 	 
-	do
-	{
+	SysTick->LOAD=us*sys_clock_pll; //1/9us		 
+	SysTick->VAL=0x00;        		
+	SysTick->CTRL=0x01;      		 
+	do{
 		temp=SysTick->CTRL;
-	}while((temp&0x01)&&!(temp&(1<<16)));	//�ȴ�ʱ�䵽��   
-	SysTick->CTRL=0x00;      	 			//�رռ�����
-	SysTick->VAL =0x00;       				//��ռ�����	
+	}while((temp&0x01)&&!(temp&(1<<16)));	
+	SysTick->CTRL=0x00;      	 		
+	SysTick->VAL =0x00;       		
 }
 
 
@@ -67,7 +71,7 @@ void resetPinMode(pin p, IO_mode mode){
 
 void pinMode(pin p, IO_mode mode, IO_level level){
 	GPIO_TypeDef *GPIO = p.reg;
-	RCC->APB2ENR|=1<<(((u32)GPIO-APB2PERIPH_BASE))/0x0400; //ʹ�� PORT ʱ��
+	RCC->APB2ENR|=1<<(((u32)GPIO-APB2PERIPH_BASE))/0x0400; 
 	
 	if(p.bitnum < 8){
 		GPIO->CRL=put16(GPIO->CRL,p.bitnum,mode);

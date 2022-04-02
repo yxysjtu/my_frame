@@ -1,6 +1,9 @@
+/*
+ * @Description: 
+ * @Author: yu
+ * @LastEditTime: 2022-04-02 17:26:40
+ */
 #include "exti.h"
-
-NVIC_priority default_priority = {2,2,3};
 
 void (*itr[16])(void) = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -9,11 +12,11 @@ void attach_ITR(pin p, detect_mode dmode, void (*f)(void), NVIC_priority priorit
 	itr[p.bitnum] = f;
     Ex_NVIC_Config((((u32)(p.reg)-APB2PERIPH_BASE))/0x0400-2, p.bitnum, dmode); 
     if(p.bitnum < 5){
-        MY_NVIC_Init(priority.preemption_priority, priority.sub_priority, EXTI0_IRQn + p.bitnum, priority.group); 
+        NVIC_init(EXTI0_IRQn + p.bitnum, priority); 
     }else if(p.bitnum < 10){
-        MY_NVIC_Init(priority.preemption_priority, priority.sub_priority ,EXTI9_5_IRQn, priority.group); 
+        NVIC_init(EXTI9_5_IRQn, priority); 
     }else{
-        MY_NVIC_Init(priority.preemption_priority, priority.sub_priority ,EXTI15_10_IRQn, priority.group); 
+        NVIC_init(EXTI15_10_IRQn, priority); 
     }
 }
 

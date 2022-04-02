@@ -1,7 +1,7 @@
 /*
  * @Description: 时钟，GPIO，NVIC，基础位运算
  * @Author: yu
- * @LastEditTime: 2022-02-27 17:47:00
+ * @LastEditTime: 2022-04-02 17:25:57
  */
 
 #ifndef BASIC_H
@@ -48,10 +48,14 @@ typedef struct{
 #define GPIOin(p)	 (p.reg->IDR & (1 << p.bitnum)) >> p.bitnum
 //#define GPIOin(p)   BIT_ADDR((u32)p.reg + 8, p.bitnum)
 
+
 inline u8 read_reg_bit(vul *reg, u8 bitnum){return (*reg & (1 << bitnum)) != 0;}
 
 extern u8 sys_clock, sys_clock_pll;
 void sys_init(u8 clock=8, u8 pll=9);
+
+extern NVIC_priority default_priority, default_priority_H;
+void NVIC_init(u8 channel, NVIC_priority priority);
 
 //math
 inline u32 put_bit(u32 num, u8 bits, u8 level){

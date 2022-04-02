@@ -6,6 +6,7 @@
 ".\objects\exti.o"
 ".\objects\wdg.o"
 ".\objects\dma.o"
+".\objects\timer.o"
 ".\objects\beep.o"
 ".\objects\led.o"
 ".\objects\key.o"

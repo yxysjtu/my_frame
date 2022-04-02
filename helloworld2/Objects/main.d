@@ -5,11 +5,11 @@
 .\objects\main.o: ..\lib\SYSTEM\core_cm3.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: ..\lib\SYSTEM\system_stm32f10x.h
-.\objects\main.o: ITR.h
 .\objects\main.o: ..\lib\COMMUNICATION\UART\usart.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\main.o: ..\lib\SYSTEM\dma.h
+.\objects\main.o: ..\lib\SYSTEM\timer.h
 .\objects\main.o: ..\lib\DEVICE\LED\led.h
 .\objects\main.o: ..\lib\DEVICE\BEEP\beep.h
 .\objects\main.o: ..\lib\DEVICE\KEY\key.h
