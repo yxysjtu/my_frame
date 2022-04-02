@@ -10,11 +10,15 @@
 u8 buf[64];
 u8 buf_len;
 
+u32 t;
 void led0_flip(){
 	LED0 = ~LED0;
 }
 void led1_flip(){
 	LED1 = ~LED1;
+	u32 t1 = millis();
+	uart1.printf("sys_t:%d; t:%d\r\n", t1, t1 - t);
+	t = t1;
 }
 
 
@@ -24,8 +28,9 @@ int main(void){
 	led_init();
 	key_init();
 	
+	t = 0;
 	tim2.init();
-	tim2.set_frequency(10);
+	tim2.set_frequency(1);
 	tim2.attach_ITR(led1_flip);
 	tim2.enable();
 	//iwdg_init(500);
@@ -39,7 +44,8 @@ int main(void){
 	//attach_ITR(key[3], RISING, led1_flip);
 	
 	while(1){
-		
+		LED0 = ~LED0;
+		delay(500);
 		//delay(19);
 		//wwdg_feed();
 
@@ -56,12 +62,12 @@ int main(void){
 			uart1.write(buf, buf_len);
 			uart1.printf("\r\n10\r\n");
 		}*/
-		if(uart1.readline(buf, &buf_len)){
+		/*if(uart1.readline(buf, &buf_len)){
 			while(!uart1.write_available());
 			uart1.write(buf, buf_len);
 			while(!uart1.write_available());
 			uart1.printf("helloworld!!!\r\n");
-		}
+		}*/
 		//uart1.printf("remain:%d\r\n",uart1.rdma.DMA_CHx->CNDTR);
 		/*uart1.printf("helloworld\r\n");
 		delay(200);*/

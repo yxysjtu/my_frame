@@ -4,23 +4,35 @@
  * @LastEditTime: 2022-04-02 17:25:31
  */
 #include "basic.h"
+#include "timer.h"
 
 NVIC_priority default_priority = {2,2,3};
 NVIC_priority default_priority_H = {2,1,3};
 
+u32 sys_ms = 0;
+void update_time(){
+	sys_ms++;
+}
 //init clock and systick
 u8 sys_clock = 8, sys_clock_pll = 9; //8M
-
 void sys_init(u8 clock, u8 pll){
 	sys_clock = clock;
 	sys_clock_pll = pll;
 	Stm32_Clock_Init(pll); 
 	SysTick->CTRL &= ~(1<<2);	
+	
+	tim1.init();
+	tim1.set_frequency(1000); //1k
+	tim1.attach_ITR(update_time);
+	tim1.enable();
 }
 
 void NVIC_init(u8 channel, NVIC_priority priority){
 	MY_NVIC_Init(priority.preemption_priority, priority.sub_priority, channel, priority.group); 
 }
+
+
+u32 millis(){return sys_ms;}
 
 //delay
 void delay(u16 ms){

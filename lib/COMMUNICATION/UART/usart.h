@@ -43,7 +43,22 @@ typedef struct {
 	pin tx;
 } UART_pin;
 
-extern UART_pin default_uart_pin;
+/****pin mapping reference*******
+ *      RX    |      TX
+UART_pin uart1_pin[2] = {
+	{{GPIOA, 10},{GPIOA, 9}},
+	{{GPIOB, 7}, {GPIOB, 6}}
+};
+UART_pin uart2_pin[2] = { 
+	{{GPIOA, 3},{GPIOA, 2}},
+	{{GPIOD, 6},{GPIOD, 5}}
+};
+UART_pin uart3_pin[3] = { 
+	{{GPIOB, 11},{GPIOB, 10}},
+	{{GPIOC, 11},{GPIOC, 10}},
+	{{GPIOD, 9}, {GPIOD, 8}}
+};
+**********************************/
 
 class UART {
 public:
@@ -57,7 +72,7 @@ public:
 	//recommend:
 	//RECV_BY_TIME_SEPRAITON + rx:DMA
 	//RECV_BY_LINE_ENDING + rx:ITR
-	void enable(UART_pin p=default_uart_pin, recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=BLOCK, u32 baudrate=115200, parity_e parity=parity_none);
+	void enable(u8 pin_remap=0, recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=BLOCK, u32 baudrate=115200, parity_e parity=parity_none);
 	void disable();
 	
 	u8 IRQHandler(void);
@@ -91,19 +106,4 @@ extern UART uart5;
 #endif
 
 #endif	   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

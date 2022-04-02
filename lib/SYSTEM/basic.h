@@ -73,6 +73,7 @@ inline int round(float num){
 	return (int)num + (int)((num - (int)num) / 0.5);
 }
 
+u32 millis(); //use tim1 to count time
 
 void delay(u16 ms);
 void delay_us(u32 us);

@@ -2,9 +2,18 @@
 //APB2:UARST1 72M
 //APB1:UARST2~5 36M
 
-UART_pin default_uart_pin = { //uart1
-	{GPIOA, 10},
-	{GPIOA, 9}
+UART_pin uart1_pin[2] = {
+	{{GPIOA, 10},{GPIOA, 9}},
+	{{GPIOB, 7}, {GPIOB, 6}}
+};
+UART_pin uart2_pin[2] = { //uart2
+	{{GPIOA, 3},{GPIOA, 2}},
+	{{GPIOD, 6},{GPIOD, 5}}
+};
+UART_pin uart3_pin[3] = { //uart3
+	{{GPIOB, 11},{GPIOB, 10}},
+	{{GPIOC, 11},{GPIOC, 10}},
+	{{GPIOD, 9}, {GPIOD, 8}}
 };
 
 UART uart1(USART1), uart2(USART2), uart3(USART3);
@@ -52,7 +61,7 @@ UART::UART(USART_TypeDef * uart){
 	}	
 }
 
-void UART::enable(UART_pin p, recv_mode rmode, io_t rx_way, io_t tx_way, u32 baudrate, parity_e parity){
+void UART::enable(u8 pin_remap, recv_mode rmode, io_t rx_way, io_t tx_way, u32 baudrate, parity_e parity){
 	this->rmode = rmode;
 	this->rx_way = rx_way;
 	this->tx_way = tx_way;
@@ -102,7 +111,27 @@ void UART::enable(UART_pin p, recv_mode rmode, io_t rx_way, io_t tx_way, u32 bau
 			default: break;
 		}
 	}
-	
+	//pin remap
+	UART_pin p;
+	switch((u32)USART){
+		case USART1_BASE:{
+			p = uart1_pin[pin_remap];
+			AFIO->MAPR &= ~(1 << 2);
+			AFIO->MAPR |= pin_remap << 2;
+		}  break;
+		case USART2_BASE:{
+			p = uart2_pin[pin_remap];
+			AFIO->MAPR &= ~(1 << 3);
+			AFIO->MAPR |= pin_remap << 3;
+		}  break;
+		case USART3_BASE:{
+			p = uart3_pin[pin_remap];
+			if(pin_remap == 2) pin_remap++;
+			AFIO->MAPR &= ~((1 << 4) + (1 << 5));
+			AFIO->MAPR |= pin_remap << 4;
+		}  break;
+		default: break;
+	}
 	pinMode(p.rx, INPUT);
 	pinMode(p.tx, ALTERNATE_OUTPUT);
 	
