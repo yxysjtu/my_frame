@@ -13,5 +13,5 @@
 .\objects\main.o: ..\lib\DEVICE\LED\led.h
 .\objects\main.o: ..\lib\DEVICE\BEEP\beep.h
 .\objects\main.o: ..\lib\DEVICE\KEY\key.h
-.\objects\main.o: ..\lib\SYSTEM\exti.h
-.\objects\main.o: ..\lib\SYSTEM\wdg.h
+.\objects\main.o: ..\lib\SYSTEM\timer_lib\pwm.h
+.\objects\main.o: ..\lib\SYSTEM\timer_lib\pulse.h

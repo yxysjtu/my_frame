@@ -1,9 +1,10 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-04-03 00:31:00
+ * @LastEditTime: 2022-04-04 13:14:51
  */
 #include "timer.h"
+#include "debug.h"
 
 timer tim1(TIM1), tim2(TIM2), tim3(TIM3), tim4(TIM4);
 #ifdef TIM5
@@ -41,6 +42,11 @@ TIM_pin tim4_pin[2] = {
     {{GPIOE,0},{GPIOB,6},{GPIOB,7},{GPIOB,8},{GPIOB,9}},
     {{GPIOE,0},{GPIOD,12},{GPIOD,13},{GPIOD,14},{GPIOD,15}}
 };
+#ifdef TIM5
+TIM_pin tim5_pin[1] = { //NO ETR
+    {{GPIOA,0},{GPIOA,0},{GPIOA,1},{GPIOA,2},{GPIOA,3}}
+};
+#endif
 
 timer::timer(TIM_TypeDef *tim){
     this->tim = tim;
@@ -73,7 +79,7 @@ void timer::attach_ITR(void (*f)(void), tim_event event, NVIC_priority priority)
     else cc_func[event - 1] = f;
 
     tim->DIER |= 1 << event; //ITR enable
-	
+    
     switch((u32)tim){ //NVIC
         case TIM1_BASE:
             if(event == update) NVIC_init(TIM1_UP_IRQn, priority);
@@ -101,8 +107,10 @@ void timer::attach_ITR(void (*f)(void), tim_event event, NVIC_priority priority)
         #endif
         default: break;
     }
+    
 }
 void timer::IRQHandler(void){
+	if((u32)tim == TIM5_BASE) debug("irq",0);
     if(tim->SR & (1 << update)){
         if(update_func != 0) update_func();
         tim->SR &= ~(1 << update);
@@ -112,9 +120,11 @@ void timer::IRQHandler(void){
     }else{
         for(u8 i = 1; i <= 4; i++){
             if(tim->SR & (1 << i)){
-                if(cc_func[i - 1] != 0) cc_func[i - 1]();
-                tim->SR &= ~(1 << i);
-                break;
+                if(cc_func[i - 1] != 0){
+					cc_func[i - 1]();
+					debug("func",i);
+					tim->SR &= ~(1 << i);
+				}
             }
         }
     }
@@ -136,7 +146,8 @@ void timer::disable_channel(TIM_CHx ch){
 }
 
 void timer::set_direction(u8 dir){
-    tim->CR1 |= dir << 4;
+    if(dir) tim->CR1 |= 1 << 4;
+    else tim->CR1 &= ~(1 << 4);
 }
 void timer::set_frequency(u32 f){
     u32 arr = 72000000 / f;
@@ -154,54 +165,122 @@ void timer::set_frequency(u16 arr, u16 psc){
 }
 void timer::set_channel_mode(TIM_CHx ch, tim_channel_mode mode, u8 pin_remap, u8 polarity){
     //pin remap
-    TIM_pin *tim_p;
-    switch((u32)tim){ //tim5~8 input,output not supported
+	if(pin_remap != 0) RCC->APB2ENR |= 1 << 0;
+    TIM_pin tim_p;
+    switch((u32)tim){ //TODO:tim5~8 input,output not supported
         case TIM1_BASE: {
-            *tim_p = tim1_pin[pin_remap]; 
+            tim_p = tim1_pin[pin_remap]; 
             if(pin_remap == 2) pin_remap++; 
-            AFIO->MAPR &= ~((1 << 6) + (1 << 7));
-            AFIO->MAPR |= pin_remap << 6;
+			if(pin_remap != 0){
+				AFIO->MAPR &= ~((1 << 6) + (1 << 7));
+				AFIO->MAPR |= pin_remap << 6;
+			}
         } break;
         case TIM2_BASE: {
-            *tim_p = tim2_pin[pin_remap]; 
-            AFIO->MAPR &= ~((1 << 8) + (1 << 9));
-            AFIO->MAPR |= pin_remap << 8;
+            tim_p = tim2_pin[pin_remap]; 
+			if(pin_remap != 0){
+				AFIO->MAPR &= ~((1 << 8) + (1 << 9));
+				AFIO->MAPR |= pin_remap << 8;
+			}
         } break;
         case TIM3_BASE: {
-            *tim_p = tim3_pin[pin_remap]; 
+            tim_p = tim3_pin[pin_remap]; 
             if(pin_remap >= 1) pin_remap++; 
-            AFIO->MAPR &= ~((1 << 10) + (1 << 11));
-            AFIO->MAPR |= pin_remap << 10;
+			if(pin_remap != 0){
+				AFIO->MAPR &= ~((1 << 10) + (1 << 11));
+				AFIO->MAPR |= pin_remap << 10;
+			}
         } break;
         case TIM4_BASE: {
-            *tim_p = tim4_pin[pin_remap]; 
-            AFIO->MAPR &= ~(1 << 12);
-            AFIO->MAPR |= pin_remap << 12;
+            tim_p = tim4_pin[pin_remap]; 
+			if(pin_remap != 0){
+				AFIO->MAPR &= ~(1 << 12);
+				AFIO->MAPR |= pin_remap << 12;
+			}
         } break;
+        #ifdef TIM5
+        case TIM5_BASE: {
+            tim_p = tim5_pin[0]; 
+        } break;
+        #endif
         default: break;
     }
     //set channel config
     switch (mode){
         case pwm:{
-            pinMode(*((pin*)tim_p+ch), ALTERNATE_OUTPUT); //god bless me, pointer point to the right place
-            if(ch == TIM_CH1 || ch == TIM_CH2){
-                tim->CCMR1 |= 6 << (4 + 8 * (ch - TIM_CH1)); //pwm mode, 110 start from 1, 111 start from 0
-                tim->CCMR1 |= 1 << (3 + 8 * (ch - TIM_CH1)); //auto load buf enable
-            }else{
-                tim->CCMR2 |= 6 << (4 + 8 * (ch - TIM_CH3)); //pwm mode, 110 start from 1, 111 start from 0
-                tim->CCMR2 |= 1 << (3 + 8 * (ch - TIM_CH3)); //auto load buf enable
-            }
+			switch(ch){
+				case TIM_CH1:{
+					pinMode(tim_p.ch1, ALTERNATE_OUTPUT);
+                    tim->CCMR1 &= ~(3 << 0);//output
+					tim->CCMR1 |= 6 << 4; //pwm mode, 110 start from 1, 111 start from 0
+					tim->CCMR1 |= 1 << 3; //auto load buf enable
+				} break;
+				case TIM_CH2:{
+					pinMode(tim_p.ch2, ALTERNATE_OUTPUT);
+                    tim->CCMR1 &= ~(3 << 8);//output
+					tim->CCMR1 |= 6 << 12; //pwm mode, 110 start from 1, 111 start from 0
+					tim->CCMR1 |= 1 << 11; //auto load buf enable
+				} break;
+				case TIM_CH3:{
+					pinMode(tim_p.ch3, ALTERNATE_OUTPUT);
+                    tim->CCMR2 &= ~(3 << 0);//output
+					tim->CCMR2 |= 6 << 4; //pwm mode, 110 start from 1, 111 start from 0
+					tim->CCMR2 |= 1 << 3; //auto load buf enable
+				} break;
+				case TIM_CH4:{
+					pinMode(tim_p.ch4, ALTERNATE_OUTPUT);
+                    tim->CCMR2 &= ~(3 << 8);//output
+					tim->CCMR2 |= 6 << 12; //pwm mode, 110 start from 1, 111 start from 0
+					tim->CCMR2 |= 1 << 11; //auto load buf enable
+				} break;
+				default: break;
+			}
             if((u32)tim == TIM1_BASE) tim->BDTR |= 1 << 15; //MOE
         } break;
         case input_capture:{
-
+            switch(ch){
+				case TIM_CH1:{
+					pinMode(tim_p.ch1, INPUT);
+                    tim->CCMR1 &= ~(3 << 0);
+                    tim->CCMR1 |= 1 << 0; //input
+				} break;
+				case TIM_CH2:{
+					pinMode(tim_p.ch2, INPUT);
+                    tim->CCMR1 &= ~(3 << 8);
+                    tim->CCMR1 |= 1 << 8; //input
+				} break;
+				case TIM_CH3:{
+					pinMode(tim_p.ch3, INPUT);
+                    tim->CCMR2 &= ~(3 << 0);
+                    tim->CCMR2 |= 1 << 0; //input
+				} break;
+				case TIM_CH4:{
+					pinMode(tim_p.ch4, INPUT);
+                    tim->CCMR2 &= ~(3 << 8);
+                    tim->CCMR2 |= 1 << 8; //input
+				} break;
+				default: break;
+			}
         } break;
         case output_compare:{
 
         } break;
         default: break;
     }
-    tim->CCER |= polarity << (4 * (ch - 1) + 1);
+    if(polarity) tim->CCER |= 1 << (4 * (ch - 1) + 1);
+}
+void timer::set_polarity(TIM_CHx ch, u8 polarity){
+    if(polarity) tim->CCER |= 1 << (4 * (ch - 1) + 1);
+	else tim->CCER &= ~(1 << (4 * (ch - 1) + 1));
+}
+void timer::set_input_filter(TIM_CHx ch, tim_input_filter input_filter, u8 input_prescaler){
+    if(ch == TIM_CH1 || ch == TIM_CH2){
+        tim->CCMR1 &= ~(0x00003f << (2 + 8 * (ch - TIM_CH1)));
+        tim->CCMR1 |= (input_prescaler << (2 + 8 * (ch - TIM_CH1))) + (input_filter << (4 + 8 * (ch - TIM_CH1)));
+    }else if(ch == TIM_CH3 || ch == TIM_CH4){
+        tim->CCMR2 &= ~(0x00003f << (2 + 8 * (ch - TIM_CH3)));
+        tim->CCMR2 |= (input_prescaler << (2 + 8 * (ch - TIM_CH3))) + (input_filter << (4 + 8 * (ch - TIM_CH3)));
+    }
 }
 void timer::set_pulsewidth(TIM_CHx ch, float pw){ //first set frequency
     switch (ch){
@@ -223,6 +302,16 @@ void timer::set_slave_in(slave_in_source s){
 
 u16 timer::get_cnt(){
     return tim->CNT;
+}
+
+u16 timer::get_ccr(TIM_CHx ch){
+	switch(ch){
+		case TIM_CH1: return tim->CCR1;
+		case TIM_CH2: return tim->CCR2;
+		case TIM_CH3: return tim->CCR3;
+		case TIM_CH4: return tim->CCR4;
+		default: return 0;
+	}
 }
 
 #ifdef __cplusplus

@@ -1,0 +1,13 @@
+.\objects\pulse.o: ..\lib\SYSTEM\timer_lib\pulse.cpp
+.\objects\pulse.o: ..\lib\SYSTEM\timer_lib\pulse.h
+.\objects\pulse.o: ..\lib\SYSTEM\timer.h
+.\objects\pulse.o: ..\lib\SYSTEM\basic.h
+.\objects\pulse.o: ..\lib\SYSTEM\sys.h
+.\objects\pulse.o: ..\lib\SYSTEM\stm32f10x.h
+.\objects\pulse.o: ..\lib\SYSTEM\core_cm3.h
+.\objects\pulse.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\pulse.o: ..\lib\SYSTEM\system_stm32f10x.h
+.\objects\pulse.o: ..\lib\COMMUNICATION\UART\usart.h
+.\objects\pulse.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\pulse.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\pulse.o: ..\lib\SYSTEM\dma.h

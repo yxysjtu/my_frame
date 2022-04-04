@@ -7,9 +7,12 @@
 ".\objects\wdg.o"
 ".\objects\dma.o"
 ".\objects\timer.o"
+".\objects\pwm.o"
+".\objects\pulse.o"
 ".\objects\beep.o"
 ".\objects\led.o"
 ".\objects\key.o"
+".\objects\tpad.o"
 ".\objects\usart.o"
 --strict --scatter ".\Objects\helloworld.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

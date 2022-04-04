@@ -6,3 +6,9 @@
 .\objects\timer.o: ..\lib\SYSTEM\core_cm3.h
 .\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\timer.o: ..\lib\SYSTEM\system_stm32f10x.h
+.\objects\timer.o: ..\lib\SYSTEM\debug.h
+.\objects\timer.o: ..\lib\COMMUNICATION\UART\usart.h
+.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\timer.o: ..\lib\SYSTEM\dma.h
+.\objects\timer.o: ..\lib\DEVICE\LED\led.h

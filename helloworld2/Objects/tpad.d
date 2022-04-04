@@ -1,0 +1,9 @@
+.\objects\tpad.o: ..\lib\DEVICE\TPAD\tpad.cpp
+.\objects\tpad.o: ..\lib\DEVICE\TPAD\tpad.h
+.\objects\tpad.o: ..\lib\SYSTEM\basic.h
+.\objects\tpad.o: ..\lib\SYSTEM\sys.h
+.\objects\tpad.o: ..\lib\SYSTEM\stm32f10x.h
+.\objects\tpad.o: ..\lib\SYSTEM\core_cm3.h
+.\objects\tpad.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\tpad.o: ..\lib\SYSTEM\system_stm32f10x.h
+.\objects\tpad.o: ..\lib\SYSTEM\timer.h

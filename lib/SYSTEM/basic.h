@@ -1,7 +1,7 @@
 /*
  * @Description: 时钟，GPIO，NVIC，基础位运算
  * @Author: yu
- * @LastEditTime: 2022-04-02 17:25:57
+ * @LastEditTime: 2022-04-04 11:57:41
  */
 
 #ifndef BASIC_H
@@ -59,19 +59,22 @@ void NVIC_init(u8 channel, NVIC_priority priority);
 
 //math
 inline u32 put_bit(u32 num, u8 bits, u8 level){
-	if(level) return num | (0x00000001<<bits); 
-	return num & (~(0x00000001<<bits)); 
+	if(level) return num | (1 << bits); 
+	return num & (~(1 << bits)); 
 }
 inline u32 put16(u32 num, u8 bits, u32 n){
-	u32 t = ~(0x0000000f<<(bits*4));
-	return (num&t)|(n<<bits*4);
+	u32 t = ~(0x0000000f << (bits * 4));
+	return (num & t) | (n << (bits * 4));
 }
 inline u8 read_bit(u32 num, u8 b){
-	return num & (0x00000001<<b); 
+	return num & (1 << b); 
 }
 inline int round(float num){
 	return (int)num + (int)((num - (int)num) / 0.5);
 }
+/*inline u32 abs(int a){
+	return (a >= 0)? a : -a;
+}*/
 
 u32 millis(); //use tim1 to count time
 

@@ -338,7 +338,7 @@
               <MiscControls>--C99 --CPP11</MiscControls>
               <Define>STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\lib\SYSTEM;..\lib\DEVICE\LED;..\lib\DEVICE\BEEP;..\lib\COMMUNICATION\UART;..\lib\DEVICE\KEY</IncludePath>
+              <IncludePath>..\lib\SYSTEM;..\lib\SYSTEM\timer_lib;..\lib\DEVICE\LED;..\lib\DEVICE\TPAD;..\lib\DEVICE\BEEP;..\lib\COMMUNICATION\UART;..\lib\DEVICE\KEY</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -432,6 +432,21 @@
               <FileType>8</FileType>
               <FilePath>..\lib\SYSTEM\timer.cpp</FilePath>
             </File>
+            <File>
+              <FileName>debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\lib\SYSTEM\debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\SYSTEM\timer_lib\pwm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pulse.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\SYSTEM\timer_lib\pulse.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -451,6 +466,11 @@
               <FileName>key.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\lib\DEVICE\KEY\key.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>tpad.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\DEVICE\TPAD\tpad.cpp</FilePath>
             </File>
           </Files>
         </Group>

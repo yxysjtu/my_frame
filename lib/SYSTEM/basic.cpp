@@ -19,7 +19,7 @@ void sys_init(u8 clock, u8 pll){
 	sys_clock = clock;
 	sys_clock_pll = pll;
 	Stm32_Clock_Init(pll); 
-	SysTick->CTRL &= ~(1<<2);	
+	SysTick->CTRL &= ~(1 << 2);	
 	
 	tim1.init();
 	tim1.set_frequency(1000); //1k
@@ -41,8 +41,7 @@ void delay(u16 ms){
 	SysTick->VAL =0x00;           			
 	SysTick->CTRL=0x01 ;          			
 	for(u8 i=0;i<ms/1000;i++){  
-		do
-		{
+		do{
 			temp=SysTick->CTRL;
 		}while((temp&0x01)&&!(temp&(1<<16)));	  
 	}
@@ -90,6 +89,6 @@ void pinMode(pin p, IO_mode mode, IO_level level){
 	}else{
 		GPIO->CRH=put16(GPIO->CRH,p.bitnum-8,mode);
 	}
-	if(level == 1) GPIO->ODR |= 1<<p.bitnum;
-	else if(level == 0) GPIO->ODR &= ~(1<<p.bitnum);
+	if(level == HIGH) GPIO->ODR |= 1 << p.bitnum;
+	else GPIO->ODR &= ~(1 << p.bitnum);
 }

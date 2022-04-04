@@ -1,3 +1,20 @@
+/****pin mapping reference*******
+ *      RX    |      TX
+UART_pin uart1_pin[2] = {
+	{{GPIOA, 10},{GPIOA, 9}},
+	{{GPIOB, 7}, {GPIOB, 6}}
+};
+UART_pin uart2_pin[2] = { 
+	{{GPIOA, 3},{GPIOA, 2}},
+	{{GPIOD, 6},{GPIOD, 5}}
+};
+UART_pin uart3_pin[3] = { 
+	{{GPIOB, 11},{GPIOB, 10}},
+	{{GPIOC, 11},{GPIOC, 10}},
+	{{GPIOD, 9}, {GPIOD, 8}}
+};
+**********************************/
+
 #ifndef __USART_H
 #define __USART_H
 
@@ -43,22 +60,6 @@ typedef struct {
 	pin tx;
 } UART_pin;
 
-/****pin mapping reference*******
- *      RX    |      TX
-UART_pin uart1_pin[2] = {
-	{{GPIOA, 10},{GPIOA, 9}},
-	{{GPIOB, 7}, {GPIOB, 6}}
-};
-UART_pin uart2_pin[2] = { 
-	{{GPIOA, 3},{GPIOA, 2}},
-	{{GPIOD, 6},{GPIOD, 5}}
-};
-UART_pin uart3_pin[3] = { 
-	{{GPIOB, 11},{GPIOB, 10}},
-	{{GPIOC, 11},{GPIOC, 10}},
-	{{GPIOD, 9}, {GPIOD, 8}}
-};
-**********************************/
 
 class UART {
 public:
