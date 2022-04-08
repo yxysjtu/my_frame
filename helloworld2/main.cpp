@@ -9,14 +9,30 @@
 //#include "tpad.h"
 #include "pwm.h"
 #include "pulse.h"
+#include "spwm.h"
+#include "tone.h"
+#include "servo.h"
 
 u8 buf[64];
 u8 buf_len;
 
 u32 t = 0;
-u32 cnt = 0;
-u8 polarity = 0;
+/*float sin_buf[4000];
 
+float sin(float x){
+	float x2 = x * x, r = x, result = 0;
+	for(float i = 1; i < 20; i += 2){
+		result += r;
+		r = -r * x2 / (i + 2) / (i + 1);
+	}
+	return result;
+}
+void set_buf(){
+	for(int i = 0; i < 4000; i++){
+		sin_buf[i] = sin(3.14*(float)i/4000)/2+0.5;
+		uart1.printf("%.2f\r\n", sin_buf[i]);
+	}
+}*/
 void led0_flip(){
 	LED0 = ~LED0;
 }
@@ -27,36 +43,22 @@ void led1_flip(){
 	t = t1;*/
 }
 
-/*void edge_detected(){
-	if(!polarity){
-		polarity = 1;
-		tim5.set_polarity(TIM_CH1, polarity);
-		cnt = tim5.get_ccr(TIM_CH1);
-		uart1.printf("press\r\n", cnt);
-	}else{
-		polarity = 0;
-		tim5.set_polarity(TIM_CH1, polarity);
-		cnt += tim5.get_ccr(TIM_CH1);
-		uart1.printf("pulse:%dms\r\n", cnt / 1000);
-	}
-}
-void cnt_overflow(){
-	cnt += 65536;
-}*/
-
-
-
-
+Servo servo1;
 int main(void){
 	sys_init();
-	uart1.enable();
+	uart1.enable(0, RECV_BY_LINE_ENDING);
 	led_init();
 	key_init();
 	
-	/*tim2.init();
-	tim2.set_frequency(1);
+	servo1.init(tim3, TIM_CH4, 1);
+	/*tone_init(tim4, 1 << 2);
+	tone_play(8);*/
+	/*set_buf();
+	spwm_init(sin_buf, 4000, tim3, tim2, (1 << 1) + (1 << 3), 4000, 1);*/
+	tim2.init();
+	tim2.set_frequency(2);
 	tim2.attach_ITR(led1_flip);
-	tim2.enable();*/
+	tim2.enable();
 	
 	/*tim3.init();
 	tim3.set_frequency(5000);
@@ -64,11 +66,14 @@ int main(void){
 	tim3.set_pulsewidth(TIM_CH2, 0.5);
 	tim3.enable_channel(TIM_CH2);
 	tim3.enable();*/
-	//pwm_init(tim3, 1 << 1, 500, 1);
-	pulsein_init(tim5, 1 << 0);
+	/*pwm_init(tim2, 15, 500);
+	pwm1out(0.5);pwm2out(0.5);pwm3out(0.5); pwm4out(0.5);*/
+	/*pwm_init(tim3, (1 << 1) + (1 << 3), 500, 1);
+	pwm1out(0.5); pwm4out(0.5);*/
+	/*pulsein_init(tim5, 1 << 0);
 	pulseout_init(tim3, 1 << 1, 1, 1);
 	delay(2000);
-	LED1 = 0;
+	LED1 = 0;*/
 	/*tim5.init();
 	tim5.set_frequency(65535, 71);
 	tim5.set_channel_mode(TIM_CH1, input_capture);
@@ -91,8 +96,27 @@ int main(void){
 	//attach_ITR(key[3], RISING, led1_flip);
 	
 	while(1){
-		pulseout(2, 0.5, 3);
-		delay(5000);
+		/*if(uart1.readline(buf, &buf_len)){
+			int deg = to_int(buf, buf_len);
+			if(deg >= 0 && deg <= 180) servo1.out(deg);
+			//uart1.printf("recv:%d\r\n", to_int(buf, buf_len));
+		}*/
+		/*uart1.printf("t:%dms\r\n", millis());
+		for(u32 i = 0; i < 1000000; i++);*/
+		//uart1.printf("t:%dms, %dus\r\n", millis(), micros());
+		LED0 = ~LED0;
+		delay_us(50000);
+		//delay(500);
+		/*for(u8 i = 0; i < 180; i++){
+			servo1.out(i);
+			delay(5);
+		}
+		for(u8 i = 180; i > 0; i--){
+			servo1.out(i);
+			delay(5);
+		}*/
+		/*pulseout(2, 0.5, 3);
+		delay(5000);*/
 		//if((cnt = pulsein(1)) != 0) uart1.printf("pulse:%dms\r\n", cnt / 1000);
 		/*tpad_reset();
 		LED1 = ~LED1;
@@ -109,14 +133,6 @@ int main(void){
 			pwm2out(i);
 			delay(10);
 		}*/
-		/*LED0 = ~LED0;
-		delay(500);*/
-		/*delay(10);
-		if(dir)led0pwmval++;
-		else led0pwmval--;
-		if(led0pwmval>300)dir=0;
-		if(led0pwmval==0)dir=1;
-		LED0_PWM_VAL=led0pwmval; */
 		//delay(19);
 		//wwdg_feed();
 

@@ -182,11 +182,7 @@ void UART::printf(const char *fmt,...){
 
 u8 UART::IRQHandler(void){ //receive interrupt
 	u8 res;	
-	if(USART->SR & (1 << 4)){ //detect idle line
-		USART_RX_STA |= 1 << 15;
-		res = USART->DR; 
-	}
-	else if(USART->SR & (1 << 5)){ //recv	 
+	if(USART->SR & (1 << 5)){ //recv	 
 		res = USART->DR; 
 		switch(rmode){
 			case RECV_OFF: break;
@@ -233,6 +229,9 @@ u8 UART::IRQHandler(void){ //receive interrupt
 			USART->CR1 &= ~(1 << 6); //TCIE
 			USART->SR &= ~(1 << 6); //to avoid still set to 1 and then trigger itr when tcie
 		}
+	}else if(USART->SR & (1 << 4)){ //detect idle line
+		USART_RX_STA |= 1 << 15;
+		res = USART->DR; 
 	}
 	
 	return res;

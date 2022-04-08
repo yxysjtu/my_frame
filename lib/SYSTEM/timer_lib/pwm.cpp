@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-04-04 10:01:25
+ * @LastEditTime: 2022-04-04 23:22:13
  */
 #include "pwm.h"
 
@@ -18,6 +18,17 @@ void pwm_init(timer &tim, u8 enable_channel, u32 freq, u8 remap){
         }
     }
 	tim.enable();
+}
+
+void pwm_set_freq(u32 f){
+    u32 arr = 72000000 / f;
+    u32 psc = 1;
+    while(arr > 65536){
+        arr >>= 1;
+        psc <<= 1;
+    }
+    pwmtim->ARR = arr - 1;
+    pwmtim->PSC = psc - 1; 
 }
 
 void pwm1out(float duty){

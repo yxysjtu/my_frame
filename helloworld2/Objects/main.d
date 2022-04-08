@@ -15,3 +15,6 @@
 .\objects\main.o: ..\lib\DEVICE\KEY\key.h
 .\objects\main.o: ..\lib\SYSTEM\timer_lib\pwm.h
 .\objects\main.o: ..\lib\SYSTEM\timer_lib\pulse.h
+.\objects\main.o: ..\lib\SYSTEM\timer_lib\spwm.h
+.\objects\main.o: ..\lib\SYSTEM\timer_lib\tone.h
+.\objects\main.o: ..\lib\DEVICE\SERVO\servo.h

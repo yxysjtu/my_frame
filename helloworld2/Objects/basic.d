@@ -6,3 +6,4 @@
 .\objects\basic.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\basic.o: ..\lib\SYSTEM\system_stm32f10x.h
 .\objects\basic.o: ..\lib\SYSTEM\timer.h
+.\objects\basic.o: ..\lib\DEVICE\LED\led.h

@@ -5,26 +5,27 @@
  */
 #include "basic.h"
 #include "timer.h"
+#include "led.h"
 
 NVIC_priority default_priority = {2,2,3};
 NVIC_priority default_priority_H = {2,1,3};
 
 u32 sys_ms = 0;
-void update_time(){
+
+//init clock and systick
+extern "C"{
+void SysTick_Handler(){
 	sys_ms++;
 }
-//init clock and systick
+}
 u8 sys_clock = 8, sys_clock_pll = 9; //8M
 void sys_init(u8 clock, u8 pll){
 	sys_clock = clock;
 	sys_clock_pll = pll;
 	Stm32_Clock_Init(pll); 
-	SysTick->CTRL &= ~(1 << 2);	
 	
-	tim1.init();
-	tim1.set_frequency(1000); //1k
-	tim1.attach_ITR(update_time);
-	tim1.enable();
+	MY_NVIC_PriorityGroupConfig(0);   
+	SysTick_Config(72000);
 }
 
 void NVIC_init(u8 channel, NVIC_priority priority){
@@ -32,41 +33,22 @@ void NVIC_init(u8 channel, NVIC_priority priority){
 }
 
 
+//timer
 u32 millis(){return sys_ms;}
+u32 micros(){return sys_ms * 1000 + (72000 - SysTick->VAL) / 72;}
 
-//delay
-void delay(u16 ms){
-	u32 temp;		   
-	SysTick->LOAD=1000*1000*sys_clock_pll;		
-	SysTick->VAL =0x00;           			
-	SysTick->CTRL=0x01 ;          			
-	for(u8 i=0;i<ms/1000;i++){  
-		do{
-			temp=SysTick->CTRL;
-		}while((temp&0x01)&&!(temp&(1<<16)));	  
-	}
-	SysTick->CTRL=0x00;      	 	
-	if(ms%1000>0){
-		SysTick->LOAD=(ms%1000)*1000*sys_clock_pll;		
-		SysTick->VAL =0x00;           		
-		SysTick->CTRL=0x01 ;          	
-		do{
-			temp=SysTick->CTRL;
-		}while((temp&0x01)&&!(temp&(1<<16)));	 
-		SysTick->CTRL=0x00;      	 			
-	}
-	SysTick->VAL =0X00;       			
+void delay(u32 ms){
+	u32 t0 = sys_ms;
+	while(sys_ms - t0 < ms);
 }
-void delay_us(u32 us){
-	u32 temp;	    	 
-	SysTick->LOAD=us*sys_clock_pll; //1/9us		 
-	SysTick->VAL=0x00;        		
-	SysTick->CTRL=0x01;      		 
-	do{
-		temp=SysTick->CTRL;
-	}while((temp&0x01)&&!(temp&(1<<16)));	
-	SysTick->CTRL=0x00;      	 		
-	SysTick->VAL =0x00;       		
+void delay_us(u32 us){ //72000 1/72us 72tick 1us
+	u32 t0 = SysTick->VAL;
+	u32 tick = 72 * us;
+	u32 tms0 = sys_ms;
+	while(1){
+		if(SysTick->VAL != 0)
+			if(((sys_ms - tms0) * 72000 + t0 - SysTick->VAL) >= tick) break;
+	}
 }
 
 
@@ -92,3 +74,49 @@ void pinMode(pin p, IO_mode mode, IO_level level){
 	if(level == HIGH) GPIO->ODR |= 1 << p.bitnum;
 	else GPIO->ODR &= ~(1 << p.bitnum);
 }
+
+u8 isnum(char c){
+	return c >= '0' && c <= '9';
+}
+int to_int(u8* s, u8 len){
+    int n = 0;	
+    unsigned char sign = 0;
+	if(!isnum(s[0])){
+		if(s[0] == '-') sign = 1;
+		else if(s[0] == '+') sign = 0;
+		else return -1;
+	}
+    for(u8 i = sign; i < len; i++){
+        n *= 10;
+        if(isnum(s[i])) n += s[i] - '0';
+		else return -1;
+    }
+    if(sign) n = -n;
+    return n;
+}
+float to_float(u8* s, u8 len){
+    float n = 0;
+    unsigned char sign = 0;
+	if(!isnum(s[0])){
+		if(s[0] == '-') sign = 1;
+		else if(s[0] == '+') sign = 0;
+		else return -1;
+	}
+	u8 i;
+    for(i = sign; i < len; i++){
+        n *= 10;
+        if(isnum(s[i])) n += s[i] - '0';
+		else if(s[i] == '.') break;
+		else return -1;
+    }
+    float n1 = 0;
+    for(int j = len - 1; j > i; j--){
+        if(isnum(s[j])) n1 += s[j] - '0';
+		else return -1;
+        n1 /= 10;
+    }
+    n += n1;
+    if(sign) n = -n;
+    return n;
+}
+

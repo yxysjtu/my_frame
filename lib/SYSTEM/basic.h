@@ -1,7 +1,7 @@
 /*
  * @Description: 时钟，GPIO，NVIC，基础位运算
  * @Author: yu
- * @LastEditTime: 2022-04-04 11:57:41
+ * @LastEditTime: 2022-04-05 00:54:45
  */
 
 #ifndef BASIC_H
@@ -72,13 +72,21 @@ inline u8 read_bit(u32 num, u8 b){
 inline int round(float num){
 	return (int)num + (int)((num - (int)num) / 0.5);
 }
+inline float map(float x, float xmin, float xmax, float ymin, float ymax){
+	return (x - xmin) / (xmax - xmin) * (ymax - ymin) + ymin;
+}
 /*inline u32 abs(int a){
 	return (a >= 0)? a : -a;
 }*/
 
-u32 millis(); //use tim1 to count time
+//string
+int to_int(u8* s, u8 len);
+float to_float(u8* s, u8 len);
 
-void delay(u16 ms);
+//timer
+u32 millis(); 
+u32 micros();
+void delay(u32 ms);
 void delay_us(u32 us);
 
 void resetPinMode(pin p, IO_mode mode);

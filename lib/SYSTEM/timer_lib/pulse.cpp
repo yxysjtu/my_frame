@@ -1,10 +1,9 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-04-04 13:29:01
+ * @LastEditTime: 2022-04-05 00:35:16
  */
 #include "pulse.h"
-#include "usart.h"
 
 u8 pulsein_polarity[4]; //a lot waste of memory.... I'm lazy
 u8 pulsein_polarity0[4];
@@ -122,15 +121,12 @@ u32 pulsein(u8 channel){
 
 
 void pulseout_overflow(){
-	uart1.printf("psout\r\n");
     for(u8 i = 0; i < 4; i++){
         if(pulseout_flag[i]){
-			uart1.printf("start\r\n");
             pulseout_flag[i] = 0;
             pulseouttim->CCER |= 1 << (4 * i);
         }else if(pulseout_cnt[i] > 0){
             pulseout_cnt[i]--;
-			uart1.printf("--\r\n");
             if(pulseout_cnt[i] == 0) pulseouttim->CCER &= ~(1 << (4 * i));
         }
     }
