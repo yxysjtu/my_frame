@@ -12,6 +12,8 @@
 #include "spwm.h"
 #include "tone.h"
 #include "servo.h"
+#include "stepper.h"
+#include "adc.h"
 
 u8 buf[64];
 u8 buf_len;
@@ -43,22 +45,31 @@ void led1_flip(){
 	t = t1;*/
 }
 
-Servo servo1;
+//Servo servo1;
+/*Stepper_pin p = {{GPIOB,5},{GPIOA,1},{GPIOA,2},{GPIOA,3}};
+Stepper stepper1(p);*/
+
 int main(void){
 	sys_init();
 	uart1.enable(0, RECV_BY_LINE_ENDING);
 	led_init();
 	key_init();
+	adc1.init();
+	pin p1 = {GPIOA, 1};
+	adc1.config_channel(1, p1, PERIOD_252);
 	
-	servo1.init(tim3, TIM_CH4, 1);
+	//stepper1.init(tim2);
+	//stepper1.spin(1000);
+	
+	//servo1.init(tim3, TIM_CH4, 1);
 	/*tone_init(tim4, 1 << 2);
 	tone_play(8);*/
 	/*set_buf();
 	spwm_init(sin_buf, 4000, tim3, tim2, (1 << 1) + (1 << 3), 4000, 1);*/
-	tim2.init();
+	/*tim2.init();
 	tim2.set_frequency(2);
 	tim2.attach_ITR(led1_flip);
-	tim2.enable();
+	tim2.enable();*/
 	
 	/*tim3.init();
 	tim3.set_frequency(5000);
@@ -94,18 +105,52 @@ int main(void){
 	
 	//attach_ITR(key[0], CHANGING, led0_flip);
 	//attach_ITR(key[3], RISING, led1_flip);
-	
+	//int st = 10;
 	while(1){
+		//LED1 = ~LED1;
+		//delay(500);
+		uart1.printf("%.2f\r\n", adc1.read_aver(1, 10));
+		/*GPIOout(p.Ap) = 1;
+		GPIOout(p.Bp) = 0;
+		GPIOout(p.An) = 0;
+		GPIOout(p.Bn) = 0;
+		delay(st);
+		GPIOout(p.Ap) = 0;
+		GPIOout(p.Bp) = 1;
+		GPIOout(p.An) = 0;
+		GPIOout(p.Bn) = 0;
+		delay(st);
+		GPIOout(p.Ap) = 0;
+		GPIOout(p.Bp) = 0;
+		GPIOout(p.An) = 1;
+		GPIOout(p.Bn) = 0;
+		delay(st);
+		GPIOout(p.Ap) = 0;
+		GPIOout(p.Bp) = 0;
+		GPIOout(p.An) = 0;
+		GPIOout(p.Bn) = 1;
+		delay(st);*/
 		/*if(uart1.readline(buf, &buf_len)){
 			int deg = to_int(buf, buf_len);
 			if(deg >= 0 && deg <= 180) servo1.out(deg);
 			//uart1.printf("recv:%d\r\n", to_int(buf, buf_len));
 		}*/
+		/*if(uart1.readline(buf, &buf_len)){
+			int sep;
+			for(sep = 0; sep < buf_len && buf[sep] != ' '; sep++);
+			if(sep < buf_len - 1){
+				int deg = to_int(buf, sep);
+				int v = to_int(buf + sep + 1, buf_len - sep - 1); 
+				stepper1.set_speed(v);
+				stepper1.spin(deg);
+				uart1.printf("spin:%d, v:%d, ang:%.2f\r\n", deg, v, stepper1.angle());
+			}
+		}*/
 		/*uart1.printf("t:%dms\r\n", millis());
 		for(u32 i = 0; i < 1000000; i++);*/
 		//uart1.printf("t:%dms, %dus\r\n", millis(), micros());
-		LED0 = ~LED0;
-		delay_us(50000);
+		/*LED0 = ~LED0;
+		delay_us(50000);*/
 		//delay(500);
 		/*for(u8 i = 0; i < 180; i++){
 			servo1.out(i);

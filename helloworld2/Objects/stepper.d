@@ -1,0 +1,9 @@
+.\objects\stepper.o: ..\lib\DEVICE\STEPPER\stepper.cpp
+.\objects\stepper.o: ..\lib\DEVICE\STEPPER\stepper.h
+.\objects\stepper.o: ..\lib\SYSTEM\timer.h
+.\objects\stepper.o: ..\lib\SYSTEM\basic.h
+.\objects\stepper.o: ..\lib\SYSTEM\sys.h
+.\objects\stepper.o: ..\lib\SYSTEM\stm32f10x.h
+.\objects\stepper.o: ..\lib\SYSTEM\core_cm3.h
+.\objects\stepper.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\stepper.o: ..\lib\SYSTEM\system_stm32f10x.h

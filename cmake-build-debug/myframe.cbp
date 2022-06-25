@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="myframe"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="my_frame">
+				<Option output="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/my_frame.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/I2C"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/UART"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/LED"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/arm-none-eabi"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/backward"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/include"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/include-fixed"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include"/>
+					<Add directory="D:\mingw64\include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 my_frame"/>
+					<CompileFile command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="my_frame/fast">
+				<Option output="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/my_frame.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/I2C"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/UART"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/LED"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/arm-none-eabi"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1/backward"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/include"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/include-fixed"/>
+					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include"/>
+					<Add directory="D:\mingw64\include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 my_frame/fast"/>
+					<CompileFile command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/helloworld2/main.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/I2C/i2c.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/I2C/i2c.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/UART/usart.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/UART/usart.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP/beep.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP/beep.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY/key.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY/key.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/LED/led.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/LED/led.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO/servo.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO/servo.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER/stepper.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER/stepper.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD/tpad.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD/tpad.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/adc.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/adc.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/basic.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/basic.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/core_cm3.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/debug.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dma.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dma.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/exti.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/exti.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/stm32f10x.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/sys.c">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/sys.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/system_stm32f10x.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/pulse.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/pulse.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/pwm.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/pwm.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/spwm.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib/tone.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/wdg.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/wdg.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

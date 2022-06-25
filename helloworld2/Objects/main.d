@@ -18,3 +18,5 @@
 .\objects\main.o: ..\lib\SYSTEM\timer_lib\spwm.h
 .\objects\main.o: ..\lib\SYSTEM\timer_lib\tone.h
 .\objects\main.o: ..\lib\DEVICE\SERVO\servo.h
+.\objects\main.o: ..\lib\DEVICE\STEPPER\stepper.h
+.\objects\main.o: ..\lib\SYSTEM\adc.h

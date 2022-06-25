@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-04-05 00:48:07
+ * @LastEditTime: 2022-04-13 18:16:28
  */
 #ifndef SERVO_H
 #define SERVO_H
@@ -15,7 +15,7 @@ private:
 public:
     void init(timer &tim, TIM_CHx ch, u8 remap=0);
 
-    void out(float deg);
+    void set_pos(float deg);
     float read();
 };
 

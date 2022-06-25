@@ -1,7 +1,7 @@
 /*
  * @Description: 
  * @Author: yu
- * @LastEditTime: 2022-04-05 00:58:05
+ * @LastEditTime: 2022-04-13 18:16:37
  */
 #include "servo.h"
 
@@ -22,7 +22,7 @@ void Servo::init(timer &tim, TIM_CHx ch, u8 remap){
 }
 
 //0~180 -> 0.5~2.5
-void Servo::out(float deg){ //arr 45000, psc 32, 1ms=2250
+void Servo::set_pos(float deg){ //arr 45000, psc 32, 1ms=2250
     *ccr = (uint16_t)map(deg, 0, 180, 1125, 5625);
     this->deg = deg;
 }

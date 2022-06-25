@@ -39,10 +39,12 @@ typedef enum {
 
 typedef volatile unsigned long vul;
 
-typedef struct{
+struct gpio_pin{
 	GPIO_TypeDef *reg;
 	u8 bitnum;
-}pin;
+};
+typedef struct gpio_pin pin;
+
 
 #define GPIOout(p)   BIT_ADDR((u32)p.reg + 12, p.bitnum)
 #define GPIOin(p)	 (p.reg->IDR & (1 << p.bitnum)) >> p.bitnum

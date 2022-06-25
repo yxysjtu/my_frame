@@ -9,6 +9,8 @@
 ".\objects\timer.o"
 ".\objects\pwm.o"
 ".\objects\pulse.o"
+".\objects\stepper.o"
+".\objects\adc.o"
 ".\objects\beep.o"
 ".\objects\led.o"
 ".\objects\key.o"
