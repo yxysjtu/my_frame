@@ -11,6 +11,7 @@
 ".\objects\pulse.o"
 ".\objects\stepper.o"
 ".\objects\adc.o"
+".\objects\dac.o"
 ".\objects\beep.o"
 ".\objects\led.o"
 ".\objects\key.o"

@@ -119,14 +119,14 @@ typedef enum{
 } TIM_CHx;
 
 typedef enum{
-    reset_event,
-    enable_event,
-    update_event,
-    cmp_match_event,
-    cmp1_match_event,
-    cmp2_match_event,
-    cmp3_match_event,
-    cmp4_match_event
+    reset_event = 0,
+    enable_event = 1,
+    update_event = 2,
+    cmp_match_event = 3,
+    cmp1_match_event = 4,
+    cmp2_match_event = 5,
+    cmp3_match_event = 6,
+    cmp4_match_event = 7
 } master_out_source;
 
 typedef enum{
@@ -190,6 +190,7 @@ public:
 	void init(tim_mode mode=continuous);
     void attach_ITR(void (*f)(void), tim_event event=update, NVIC_priority priority=default_priority_H); 
 	void IRQHandler(void);
+	void enable_dma_request(tim_event event=update);
 
     void set_direction(u8 dir); //dir 0:up, 1:down
     void set_frequency(u32 f); //for not so accurate application

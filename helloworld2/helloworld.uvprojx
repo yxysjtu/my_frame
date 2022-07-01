@@ -467,6 +467,11 @@
               <FileType>8</FileType>
               <FilePath>..\lib\SYSTEM\adc.cpp</FilePath>
             </File>
+            <File>
+              <FileName>dac.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\SYSTEM\dac.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

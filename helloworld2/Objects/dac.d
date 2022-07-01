@@ -1,0 +1,10 @@
+.\objects\dac.o: ..\lib\SYSTEM\dac.cpp
+.\objects\dac.o: ..\lib\SYSTEM\dac.h
+.\objects\dac.o: ..\lib\SYSTEM\basic.h
+.\objects\dac.o: ..\lib\SYSTEM\sys.h
+.\objects\dac.o: ..\lib\SYSTEM\stm32f10x.h
+.\objects\dac.o: ..\lib\SYSTEM\core_cm3.h
+.\objects\dac.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\dac.o: ..\lib\SYSTEM\system_stm32f10x.h
+.\objects\dac.o: ..\lib\SYSTEM\timer.h
+.\objects\dac.o: ..\lib\SYSTEM\dma.h

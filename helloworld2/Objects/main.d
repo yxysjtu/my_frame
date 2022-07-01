@@ -20,3 +20,4 @@
 .\objects\main.o: ..\lib\DEVICE\SERVO\servo.h
 .\objects\main.o: ..\lib\DEVICE\STEPPER\stepper.h
 .\objects\main.o: ..\lib\SYSTEM\adc.h
+.\objects\main.o: ..\lib\SYSTEM\dac.h

@@ -34,6 +34,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD/tpad.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/TPAD/tpad.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/adc.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/adc.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/basic.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/basic.cpp.obj"
+  "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dac.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/dac.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dma.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/dma.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/exti.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/exti.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/SYSTEM/timer.cpp.obj"

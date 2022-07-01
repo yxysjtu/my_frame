@@ -439,6 +439,33 @@ lib/SYSTEM/basic.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/SYSTEM/basic.cpp.s
 .PHONY : lib/SYSTEM/basic.cpp.s
 
+lib/SYSTEM/dac.obj: lib/SYSTEM/dac.cpp.obj
+
+.PHONY : lib/SYSTEM/dac.obj
+
+# target to build an object file
+lib/SYSTEM/dac.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/SYSTEM/dac.cpp.obj
+.PHONY : lib/SYSTEM/dac.cpp.obj
+
+lib/SYSTEM/dac.i: lib/SYSTEM/dac.cpp.i
+
+.PHONY : lib/SYSTEM/dac.i
+
+# target to preprocess a source file
+lib/SYSTEM/dac.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/SYSTEM/dac.cpp.i
+.PHONY : lib/SYSTEM/dac.cpp.i
+
+lib/SYSTEM/dac.s: lib/SYSTEM/dac.cpp.s
+
+.PHONY : lib/SYSTEM/dac.s
+
+# target to generate assembly for a file
+lib/SYSTEM/dac.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/SYSTEM/dac.cpp.s
+.PHONY : lib/SYSTEM/dac.cpp.s
+
 lib/SYSTEM/dma.obj: lib/SYSTEM/dma.cpp.obj
 
 .PHONY : lib/SYSTEM/dma.obj
@@ -670,6 +697,9 @@ help:
 	@echo ... lib/SYSTEM/basic.obj
 	@echo ... lib/SYSTEM/basic.i
 	@echo ... lib/SYSTEM/basic.s
+	@echo ... lib/SYSTEM/dac.obj
+	@echo ... lib/SYSTEM/dac.i
+	@echo ... lib/SYSTEM/dac.s
 	@echo ... lib/SYSTEM/dma.obj
 	@echo ... lib/SYSTEM/dma.i
 	@echo ... lib/SYSTEM/dma.s

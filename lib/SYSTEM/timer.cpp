@@ -293,7 +293,8 @@ void timer::set_pulsewidth(TIM_CHx ch, float pw){ //first set frequency
 }
 
 void timer::set_master_out(master_out_source m){
-
+    tim->CR2 = 0;
+    tim->CR2 |= (m << 4);
 }
 
 void timer::set_slave_in(slave_in_source s){
@@ -312,6 +313,13 @@ u16 timer::get_ccr(TIM_CHx ch){
 		case TIM_CH4: return tim->CCR4;
 		default: return 0;
 	}
+}
+
+//you need also set dma channel
+//reference: p148
+void timer::enable_dma_request(tim_event event) {
+    tim->DIER |= 1 << (event + 8);
+    tim->DIER |= 1 << 14; //enable dma request
 }
 
 #ifdef __cplusplus

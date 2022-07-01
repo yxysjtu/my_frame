@@ -69,4 +69,6 @@ add_executable(my_frame
         lib/SYSTEM/timer.cpp
         lib/SYSTEM/timer.h
         lib/SYSTEM/wdg.cpp
-        lib/SYSTEM/wdg.h)
+        lib/SYSTEM/wdg.h
+        lib/SYSTEM/dac.cpp
+        lib/SYSTEM/dac.h)

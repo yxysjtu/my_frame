@@ -168,6 +168,12 @@
 		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/core_cm3.h">
 			<Option target="my_frame"/>
 		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dac.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/dac.h">
+			<Option target="my_frame"/>
+		</Unit>
 		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/debug.h">
 			<Option target="my_frame"/>
 		</Unit>

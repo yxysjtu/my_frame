@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/my_frame.dir/lib/DEVICE/TPAD/tpad.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/SYSTEM/adc.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/SYSTEM/basic.cpp.obj"
+  "CMakeFiles/my_frame.dir/lib/SYSTEM/dac.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/SYSTEM/dma.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/SYSTEM/exti.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/SYSTEM/sys.c.obj"
