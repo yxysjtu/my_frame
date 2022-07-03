@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/my_frame.dir/lib/COMMUNICATION/I2C/i2c.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/COMMUNICATION/UART/usart.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/DEVICE/BEEP/beep.cpp.obj"
+  "CMakeFiles/my_frame.dir/lib/DEVICE/EEPROM/eeprom.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/DEVICE/KEY/key.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/DEVICE/LED/led.cpp.obj"
   "CMakeFiles/my_frame.dir/lib/DEVICE/SERVO/servo.cpp.obj"

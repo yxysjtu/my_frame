@@ -25,6 +25,7 @@ include_directories(lib/DEVICE/LED)
 include_directories(lib/DEVICE/SERVO)
 include_directories(lib/DEVICE/STEPPER)
 include_directories(lib/DEVICE/TPAD)
+include_directories(lib/DEVICE/EEPROM)
 include_directories(lib/SYSTEM)
 include_directories(lib/SYSTEM/timer_lib)
 
@@ -71,4 +72,6 @@ add_executable(my_frame
         lib/SYSTEM/wdg.cpp
         lib/SYSTEM/wdg.h
         lib/SYSTEM/dac.cpp
-        lib/SYSTEM/dac.h)
+        lib/SYSTEM/dac.h
+        lib/DEVICE/EEPROM/eeprom.cpp
+        lib/DEVICE/EEPROM/eeprom.h)

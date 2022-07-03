@@ -93,12 +93,12 @@ clean: CMakeFiles/my_frame.dir/clean
 CMakeFiles/my_frame.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\asus\Desktop\learn_stm\my_frame\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 "Built target my_frame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\asus\Desktop\learn_stm\my_frame\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 "Built target my_frame"
 .PHONY : CMakeFiles/my_frame.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/my_frame.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\asus\Desktop\learn_stm\my_frame\cmake-build-debug\CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\asus\Desktop\learn_stm\my_frame\cmake-build-debug\CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/my_frame.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\asus\Desktop\learn_stm\my_frame\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/my_frame.dir/rule

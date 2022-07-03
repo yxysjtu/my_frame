@@ -16,7 +16,7 @@ public:
     void init(timer &tim, TIM_CHx ch, u8 remap=0);
 
     void set_pos(float deg);
-    float read();
+    float angle();
 };
 
 

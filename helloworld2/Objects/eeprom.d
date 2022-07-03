@@ -1,0 +1,9 @@
+.\objects\eeprom.o: ..\lib\DEVICE\EEPROM\eeprom.cpp
+.\objects\eeprom.o: ..\lib\DEVICE\EEPROM\eeprom.h
+.\objects\eeprom.o: ..\lib\SYSTEM\basic.h
+.\objects\eeprom.o: ..\lib\SYSTEM\sys.h
+.\objects\eeprom.o: ..\lib\SYSTEM\stm32f10x.h
+.\objects\eeprom.o: ..\lib\SYSTEM\core_cm3.h
+.\objects\eeprom.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\eeprom.o: ..\lib\SYSTEM\system_stm32f10x.h
+.\objects\eeprom.o: ..\lib\COMMUNICATION\I2C\i2c.h

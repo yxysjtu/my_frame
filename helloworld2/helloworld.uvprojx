@@ -338,7 +338,7 @@
               <MiscControls>--C99 --CPP11</MiscControls>
               <Define>STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\lib\SYSTEM;..\lib\SYSTEM\timer_lib;..\lib\DEVICE\LED;..\lib\DEVICE\TPAD;..\lib\DEVICE\STEPPER;..\lib\DEVICE\SERVO;..\lib\DEVICE\BEEP;..\lib\COMMUNICATION\UART;..\lib\DEVICE\KEY</IncludePath>
+              <IncludePath>..\lib\SYSTEM;..\lib\SYSTEM\timer_lib;..\lib\DEVICE\LED;..\lib\DEVICE\EEPROM;..\lib\DEVICE\TPAD;..\lib\DEVICE\STEPPER;..\lib\DEVICE\SERVO;..\lib\DEVICE\BEEP;..\lib\COMMUNICATION\UART;..\lib\DEVICE\KEY;..\lib\COMMUNICATION\I2C</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -502,6 +502,11 @@
               <FileType>8</FileType>
               <FilePath>..\lib\DEVICE\SERVO\servo.cpp</FilePath>
             </File>
+            <File>
+              <FileName>eeprom.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\DEVICE\EEPROM\eeprom.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -511,6 +516,11 @@
               <FileName>usart.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\lib\COMMUNICATION\UART\usart.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>i2c.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\lib\COMMUNICATION\I2C\i2c.cpp</FilePath>
             </File>
           </Files>
         </Group>

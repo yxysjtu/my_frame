@@ -250,6 +250,33 @@ lib/DEVICE/BEEP/beep.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/DEVICE/BEEP/beep.cpp.s
 .PHONY : lib/DEVICE/BEEP/beep.cpp.s
 
+lib/DEVICE/EEPROM/eeprom.obj: lib/DEVICE/EEPROM/eeprom.cpp.obj
+
+.PHONY : lib/DEVICE/EEPROM/eeprom.obj
+
+# target to build an object file
+lib/DEVICE/EEPROM/eeprom.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/DEVICE/EEPROM/eeprom.cpp.obj
+.PHONY : lib/DEVICE/EEPROM/eeprom.cpp.obj
+
+lib/DEVICE/EEPROM/eeprom.i: lib/DEVICE/EEPROM/eeprom.cpp.i
+
+.PHONY : lib/DEVICE/EEPROM/eeprom.i
+
+# target to preprocess a source file
+lib/DEVICE/EEPROM/eeprom.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/DEVICE/EEPROM/eeprom.cpp.i
+.PHONY : lib/DEVICE/EEPROM/eeprom.cpp.i
+
+lib/DEVICE/EEPROM/eeprom.s: lib/DEVICE/EEPROM/eeprom.cpp.s
+
+.PHONY : lib/DEVICE/EEPROM/eeprom.s
+
+# target to generate assembly for a file
+lib/DEVICE/EEPROM/eeprom.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\my_frame.dir\build.make CMakeFiles/my_frame.dir/lib/DEVICE/EEPROM/eeprom.cpp.s
+.PHONY : lib/DEVICE/EEPROM/eeprom.cpp.s
+
 lib/DEVICE/KEY/key.obj: lib/DEVICE/KEY/key.cpp.obj
 
 .PHONY : lib/DEVICE/KEY/key.obj
@@ -676,6 +703,9 @@ help:
 	@echo ... lib/DEVICE/BEEP/beep.obj
 	@echo ... lib/DEVICE/BEEP/beep.i
 	@echo ... lib/DEVICE/BEEP/beep.s
+	@echo ... lib/DEVICE/EEPROM/eeprom.obj
+	@echo ... lib/DEVICE/EEPROM/eeprom.i
+	@echo ... lib/DEVICE/EEPROM/eeprom.s
 	@echo ... lib/DEVICE/KEY/key.obj
 	@echo ... lib/DEVICE/KEY/key.i
 	@echo ... lib/DEVICE/KEY/key.s

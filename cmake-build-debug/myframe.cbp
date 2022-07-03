@@ -32,6 +32,7 @@
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/EEPROM"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib"/>
 					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1"/>
@@ -64,6 +65,7 @@
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/STEPPER"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/TPAD"/>
+					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/EEPROM"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM"/>
 					<Add directory="C:/Users/asus/Desktop/learn_stm/my_frame/lib/SYSTEM/timer_lib"/>
 					<Add directory="g:\gcc-arm-none-eabi-10.3-2021.10\bin\../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/include/c++/10.3.1"/>
@@ -121,6 +123,12 @@
 			<Option target="my_frame"/>
 		</Unit>
 		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP/beep.h">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/EEPROM/eeprom.cpp">
+			<Option target="my_frame"/>
+		</Unit>
+		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/EEPROM/eeprom.h">
 			<Option target="my_frame"/>
 		</Unit>
 		<Unit filename="C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY/key.cpp">

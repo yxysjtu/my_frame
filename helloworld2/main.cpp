@@ -15,6 +15,10 @@
 #include "stepper.h"
 #include "adc.h"
 #include "dac.h"
+#include "eeprom.h"
+
+pin scl = {GPIOB, 6}, sda = {GPIOB, 7};
+pin test = {GPIOB, 1};
 
 u8 buf[64];
 u8 buf_len;
@@ -43,8 +47,9 @@ void led0_flip(){
 }
 void led1_flip(){
 	//LED1 = ~LED1;
-	dac1.write(v);
-	if(++v > 4095) v = 0;
+	/*dac1.write(v);
+	if(++v > 4095) v = 0;*/
+	uart1.printf("%d %d\r\n", GPIOout(scl), GPIOin(sda));
 	/*u32 t1 = millis();
 	uart1.printf("sys_t:%d; t:%d\r\n", t1, t1 - t);
 	t = t1;*/
@@ -59,13 +64,35 @@ int main(void){
 	uart1.enable(0, RECV_BY_LINE_ENDING);
 	led_init();
 	key_init();
+	
+	pinMode(test, INPUT);
 
-	adc1.init();
+	/*adc1.init();
 	pin p1 = {GPIOA, 1};
 	adc1.config_channel(1, p1, PERIOD_252);
 
 	dac1.init();
-	dac1.set_waveform(sin_buf, 256, 10, tim8);
+	dac1.set_waveform(sin_buf, 256, 10, tim8);*/
+
+	/*EEPROM rom(AT24C02, {GPIOB, 6}, {GPIOB, 7});
+	LED0 = rom.check(0);
+	rom.write(0,0xaa);
+	uart1.printf("%d\r\n", rom.read(0));*/
+
+    tim2.init();
+    tim2.set_frequency(1000);
+    tim2.attach_ITR(led1_flip);
+    tim2.enable();
+
+	I2C i2c;
+	i2c.init({GPIOB, 6}, {GPIOB, 7});
+	/*i2c.start(0x50, WRITE);
+	i2c.write(0xaa);
+	delay(5);
+	i2c.start(0x50, READ);
+	i2c.read(0);
+	i2c.end();*/
+	
 	
 	//stepper1.init(tim2);
 	//stepper1.spin(1000);
@@ -75,10 +102,6 @@ int main(void){
 	tone_play(8);*/
 	/*set_buf();
 	spwm_init(sin_buf, 4000, tim3, tim2, (1 << 1) + (1 << 3), 4000, 1);*/
-	/*tim2.init();
-	tim2.set_frequency(8192*10);
-	tim2.attach_ITR(led1_flip);
-	tim2.enable();*/
 	
 	/*tim3.init();
 	tim3.set_frequency(5000);
@@ -116,9 +139,19 @@ int main(void){
 	//attach_ITR(key[3], RISING, led1_flip);
 	//int st = 10;
 	while(1){
-		//LED1 = ~LED1;
-		//delay(500);
-		uart1.printf("%.2f\r\n", adc1.read_aver(1, 10));
+		LED1 = ~LED1;
+		delay(100);
+		I2C i2c;
+		i2c.init({GPIOB, 6}, {GPIOB, 7});
+		/*i2c.start(0x50, WRITE);
+		i2c.write(0xaa);
+		delay(10);*/
+		i2c.start(0x50, READ);
+		i2c.read(0);
+		i2c.end();
+//		rom.write(0,0xaa);
+//        uart1.printf("%d\r\n", rom.read(0));
+		//uart1.printf("%.2f\r\n", adc1.read_aver(1, 10));
 		/*GPIOout(p.Ap) = 1;
 		GPIOout(p.Bp) = 0;
 		GPIOout(p.An) = 0;

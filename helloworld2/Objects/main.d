@@ -21,3 +21,5 @@
 .\objects\main.o: ..\lib\DEVICE\STEPPER\stepper.h
 .\objects\main.o: ..\lib\SYSTEM\adc.h
 .\objects\main.o: ..\lib\SYSTEM\dac.h
+.\objects\main.o: ..\lib\DEVICE\EEPROM\eeprom.h
+.\objects\main.o: ..\lib\COMMUNICATION\I2C\i2c.h

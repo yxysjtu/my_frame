@@ -1,7 +1,8 @@
-#my frame
-##system
+# my frame
+--------------------------------------
+## system
 - basic
-```
+```cpp
 #define GPIOout(p)   BIT_ADDR((u32)p.reg + 12, p.bitnum)
 
 inline u8 read_reg_bit(vul *reg, u8 bitnum){return (*reg & (1 << bitnum)) != 0;}
@@ -49,7 +50,7 @@ void pinMode(pin p, IO_mode mode, IO_level level=FLOAT);
 ```
 
 - wdg
-```
+```cpp
 void iwdg_init(float tout_ms); //0.1 ~ 26000 ms
 void iwdg_feed();
 
@@ -59,16 +60,14 @@ void wwdg_feed();
 ```
 
 - exti
-```
+```cpp
 //same pin num share 1 interrupt, like PA1,PB1,PC1...
 void attach_ITR(pin p, detect_mode dmode, void (*f)(void), NVIC_priority priority=default_priority);
 ```
 
 - timer
-```
+```cpp
 class timer{
-	TIM_TypeDef *tim;
-	
     timer(TIM_TypeDef *tim);
 
 	void init(tim_mode mode=continuous);
@@ -104,7 +103,7 @@ class timer{
 ```
 
 - dma
-```
+```cpp
 class DMA_CH{
     DMA_CH(DMA_Channel_TypeDef* DMA_CHx);
     
@@ -129,13 +128,12 @@ class DMA_CH{
 	u8 transmitt_complete();
     void disable(); //auto reload counter
 	
-	void IRQHandler(void);//must be wrapped in outside void DMAx_Channely_IRQHandler(void)
 };
 ```
 
 - adc
 
-```
+```cpp
 class ADC{
     ADC(ADC_TypeDef* adc);
 
@@ -149,8 +147,47 @@ class ADC{
     float read_aver(u8 ch, u8 n);
 
     float value();
-
-    void IRQHandler();
 };
 //TODO
+```
+
+- dac
+```cpp
+class DAC_CH{
+    DAC_CH(u8 dacn);
+
+    void init();
+
+    void set_waveform(u16* buf, u32 len, u32 freq, timer& tim);
+
+    void write(u16 val); //0~4095
+
+    void set_trigger(trig_sel tsel);
+};
+```
+-------------------------
+##communication
+- uart
+```cpp
+class UART {
+	UART(USART_TypeDef *uart=USART1);
+
+	//recommend:
+	//RECV_BY_TIME_SEPRAITON + rx:DMA
+	//RECV_BY_LINE_ENDING + rx:ITR
+	void enable(u8 pin_remap=0, recv_mode rmode=RECV_BY_TIME_SEPRAITON, io_t rx_way=ITR, io_t tx_way=BLOCK, u32 baudrate=115200, parity_e parity=parity_none);
+	void disable();
+	
+
+	//RECV_BY_LINE: \r\n(support block,itr)
+	//RECV_BY_TIME_SEPRATION: data packet(support block,itr,dma)
+	//RECV_IN_CIRCULAR_BUF: all data in buf(block not supported)
+	u8 readline(u8 *buf, u8 *len, u32 timeout=1000); //return read success=1, fail=0
+	u8 read(u8 *buf, u16 len);//circular buf, return read success=1, fail=0
+	void printf(const char *fmt,...);
+	void write(u8 val);
+	void write(u8 *buf, u32 len);
+	u8 write_available();
+	
+};
 ```

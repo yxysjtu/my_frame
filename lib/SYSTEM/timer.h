@@ -208,7 +208,7 @@ public:
     *TIM4 | 1 | 2 | 3 | 8
     *TIM5 | 2 | 3 | 4 | 8
     (slave_in_trigger_mapping)*/
-    void set_slave_in(slave_in_source s);
+    void set_slave_in(slave_in_source s);//TODO
 	
 	void enable(); 
     void disable();

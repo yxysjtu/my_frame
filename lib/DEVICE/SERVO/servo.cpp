@@ -26,6 +26,6 @@ void Servo::set_pos(float deg){ //arr 45000, psc 32, 1ms=2250
     *ccr = (uint16_t)map(deg, 0, 180, 1125, 5625);
     this->deg = deg;
 }
-float Servo::read(){
+float Servo::angle(){
     return deg;
 }

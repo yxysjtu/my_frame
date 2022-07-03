@@ -19,6 +19,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   "../lib/DEVICE/SERVO"
   "../lib/DEVICE/STEPPER"
   "../lib/DEVICE/TPAD"
+  "../lib/DEVICE/EEPROM"
   "../lib/SYSTEM"
   "../lib/SYSTEM/timer_lib"
   )
@@ -27,6 +28,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/I2C/i2c.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/COMMUNICATION/I2C/i2c.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/COMMUNICATION/UART/usart.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/COMMUNICATION/UART/usart.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/BEEP/beep.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/BEEP/beep.cpp.obj"
+  "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/EEPROM/eeprom.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/EEPROM/eeprom.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/KEY/key.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/KEY/key.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/LED/led.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/LED/led.cpp.obj"
   "C:/Users/asus/Desktop/learn_stm/my_frame/lib/DEVICE/SERVO/servo.cpp" "C:/Users/asus/Desktop/learn_stm/my_frame/cmake-build-debug/CMakeFiles/my_frame.dir/lib/DEVICE/SERVO/servo.cpp.obj"
@@ -54,6 +56,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../lib/DEVICE/SERVO"
   "../lib/DEVICE/STEPPER"
   "../lib/DEVICE/TPAD"
+  "../lib/DEVICE/EEPROM"
   "../lib/SYSTEM"
   "../lib/SYSTEM/timer_lib"
   )
